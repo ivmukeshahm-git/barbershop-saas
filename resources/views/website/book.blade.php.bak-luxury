@@ -1,0 +1,3656 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blue Crown Barbers - Appointment Book</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="{{ asset('frontend/images/logo.png') }}" rel="icon" />
+
+    
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+
+    <style>
+        :root {
+            --lx-blue: #0A66C2;
+            --lx-blue-dark: #1E3A8A;
+            --lx-navy: #0F172A;
+            --lx-bg: #F8FAFC;
+        }
+        body {
+            font-family: 'Inter', sans-serif !important;
+            background: linear-gradient(160deg, #E8F2FC 0%, #F8FAFC 40%, #FFFFFF 100%) !important;
+            background-attachment: fixed !important;
+            min-height: 100vh;
+            color: var(--lx-navy);
+        }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .wizard-container { max-width: 1000px; margin: 2rem auto; }
+        .wizard-container .card {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(10,102,194,0.12);
+        }
+        .wizard-container .card-header {
+            background: linear-gradient(135deg, #0A66C2, #1E3A8A) !important;
+            border: none;
+            padding: 1.25rem 1.5rem;
+        }
+        .wizard-container .card-header h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        .wizard-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0 8px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .wizard-topbar img { height: 48px; background: #fff; border-radius: 12px; padding: 4px 10px; }
+        .wizard-topbar a.home-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #0A66C2;
+            text-decoration: none;
+            background: #fff;
+            padding: 10px 18px;
+            border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(10,102,194,0.12);
+        }
+        .progress-step.active { background-color: #0A66C2 !important; }
+        .btn-primary {
+            background: linear-gradient(135deg, #0A66C2, #1E3A8A) !important;
+            border: none !important;
+            border-radius: 50px !important;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            padding: 10px 22px;
+        }
+        .btn-outline-primary {
+            border-radius: 50px !important;
+            border-color: #0A66C2 !important;
+            color: #0A66C2 !important;
+            font-weight: 600;
+        }
+        .btn-outline-primary:hover {
+            background: #0A66C2 !important;
+            color: #fff !important;
+        }
+        .form-control, .form-select {
+            border-radius: 14px !important;
+            padding: 12px 14px;
+            border: 1.5px solid rgba(15,23,42,0.1);
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #0A66C2;
+            box-shadow: 0 0 0 4px rgba(10,102,194,0.12);
+        }
+        .service-card, .staff-card { border-radius: 16px !important; }
+        .summary-section { border-radius: 16px !important; border-color: rgba(10,102,194,0.1) !important; }
+    </style>
+
+    <style>
+
+        .wizard-container {
+
+            max-width: 1000px;
+
+            margin: 2rem auto;
+
+        }
+
+
+
+        .step-content {
+
+            display: none;
+
+            animation: fadeIn 0.3s ease-in;
+
+        }
+
+
+
+        .step-content.active {
+
+            display: block;
+
+        }
+
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(10px);
+
+            }
+
+
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+
+        .progress-step {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            position: relative;
+
+        }
+
+
+
+        .progress-step.completed {
+
+            background-color: #198754;
+
+            color: white;
+
+        }
+
+
+
+        .progress-step.active {
+
+            background-color: #0A66C2;
+
+            color: white;
+
+        }
+
+
+
+        .progress-step.pending {
+
+            background-color: #e9ecef;
+
+            color: #6c757d;
+
+        }
+
+
+
+        .progress-line {
+
+            height: 2px;
+
+            background-color: #e9ecef;
+
+            flex: 1;
+
+            margin: 0 10px;
+
+            top: -14px;
+
+            position: relative;
+
+        }
+
+
+
+        .progress-line.completed {
+
+            background-color: #198754;
+
+            top: -14px;
+
+            position: relative;
+
+        }
+
+
+
+        .step-title {
+
+            font-size: 0.875rem;
+
+            margin-top: 0.5rem;
+
+            text-align: center;
+
+        }
+
+    </style>
+
+    <style>
+
+        .service-btn-group .btn {
+
+            border-radius: 8px 8px 8px 8px;
+
+        }
+
+
+
+        .service-btn-group .btn.active {
+
+            background: #0A66C2;
+
+            color: #fff;
+
+            border-color: #0A66C2;
+
+        }
+
+
+
+        .service-btn-group .btn:not(.active) {
+
+            background: #fff;
+
+            color: #0A66C2;
+
+            border-color: #0A66C2;
+
+        }
+
+
+
+        .service-card {
+
+            border: 1.5px solid #ececec;
+
+            border-radius: 12px;
+
+            background: #fff;
+
+            transition: box-shadow 0.15s;
+
+            cursor: pointer;
+
+        }
+
+
+
+        .service-card:hover {
+
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+
+        .staff-card.selected {
+
+            background: #0A66C2 !important;
+
+            color: #fff !important;
+
+            border-color: #0A66C2 !important;
+
+        }
+
+
+
+        .staff-card.selected .badge {
+
+            background: #fff !important;
+
+            color: #0A66C2 !important;
+
+        }
+
+
+
+        .staff-card {
+
+            border: 1.5px solid #ececec;
+
+            border-radius: 12px;
+
+            background: #fff;
+
+            min-height: 100px;
+
+            cursor: pointer;
+
+            transition: box-shadow 0.15s, background 0.15s;
+
+        }
+
+
+
+        .staff-card:hover {
+
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+
+        .service-card.active {
+
+            border: 2px solid #0A66C2;
+
+            background: #0A66C20f;
+
+        }
+
+    </style>
+
+
+
+    <style>
+
+        .toggle-tabs {
+
+            display: flex;
+
+            border-radius: 8px;
+
+            border: 1px solid #E8F2FC;
+
+            overflow: hidden;
+
+            background: #fff;
+
+            width: 100%;
+
+        }
+
+
+
+        .tab-btn {
+
+            flex: 1;
+
+            padding: 7px 0;
+
+            background: none;
+
+            border: none;
+
+            font-weight: 500;
+
+            font-size: 15px;
+
+            color: #222;
+
+            transition: background 0.2s, color 0.2s;
+
+            cursor: pointer;
+
+            outline: none;
+
+        }
+
+
+
+        .tab-btn.active {
+
+            background: #1E3A8A;
+
+            color: #fff;
+
+            border-radius: 8px 0 0 8px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .tab-btn:not(.active) {
+
+            background: none;
+
+            color: #222;
+
+        }
+
+
+
+        .tab-btn:last-child.active {
+
+            border-radius: 0 8px 8px 0;
+
+        }
+
+
+
+        .slot-btn {
+
+            background: #eee;
+
+            color: #000;
+
+        }
+
+    </style>
+
+    <style>
+
+        .summary-card {
+
+            /* background: #fff;
+
+                            border-radius: 12px;
+
+                            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
+
+                            border: 1px solid #f0eaea; */
+
+            padding: 0;
+
+            margin: 20px 0;
+
+            max-width: 100%;
+
+        }
+
+
+
+        .summary-section {
+
+            border-radius: 10px;
+
+            background: #fff;
+
+            padding: 22px 24px 8px 24px;
+
+            margin-bottom: 12px;
+
+            border: 1px solid #f7eaea;
+
+        }
+
+
+
+        .summary-row {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .summary-icon {
+
+            color: #1E3A8A;
+
+            font-size: 22px;
+
+            margin-top: 2px;
+
+        }
+
+
+
+        .summary-label {
+
+            font-weight: 600;
+
+            color: #1E3A8A;
+
+            font-size: 16px;
+
+            margin-bottom: 5px;
+
+            line-height: 1.2;
+
+        }
+
+
+
+        .summary-value {
+
+            color: #222;
+
+            font-size: 15px;
+
+            font-weight: 500;
+
+        }
+
+
+
+        .service-details {
+
+            padding: 0 0 0 36px;
+
+            margin-top: -7px;
+
+        }
+
+
+
+        .service-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 3px 0;
+
+            font-size: 15px;
+
+        }
+
+
+
+        .service-name {
+
+            font-weight: bold;
+
+            color: #111;
+
+        }
+
+
+
+        .service-duration {
+
+            font-size: 13px;
+
+            color: #646464;
+
+            margin-top: 2px;
+
+        }
+
+
+
+        .service-price {
+
+            font-weight: 600;
+
+            color: #1E3A8A;
+
+            font-size: 16px;
+
+        }
+
+
+
+        .total-row {
+
+            border-top: 1px solid #f0eaea;
+
+            margin-top: 7px;
+
+            padding-top: 7px;
+
+        }
+
+
+
+        .service-total-label {
+
+            font-weight: bold;
+
+        }
+
+
+
+        .service-total-amount {
+
+            color: #111;
+
+        }
+
+
+
+        .staff-details {
+
+            padding-left: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            margin-top: 4px;
+
+        }
+
+
+
+        .staff-avatar {
+
+            background: #f3dede;
+
+            color: #1E3A8A;
+
+            width: 37px;
+
+            height: 37px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            margin-right: 5px;
+
+        }
+
+
+
+        .staff-name {
+
+            font-weight: 600;
+
+            color: #222;
+
+            font-size: 15px;
+
+        }
+
+
+
+        .customer-details {
+
+            padding-left: 36px;
+
+            margin-top: 4px;
+
+            font-size: 15px;
+
+        }
+
+    </style>
+
+    <style>
+
+        #ServiceByStaffStep {
+
+            display: none;
+
+        }
+
+
+
+        .slot-btn.active {
+
+            background-color: #1E3A8A;
+
+            /* Bootstrap primary color */
+
+            color: #fff;
+
+            border-color: #1E3A8A;
+
+        }
+
+
+
+        .shop-close-error {
+
+            padding: 14px;
+
+            width: 100%;
+
+            text-align: center;
+
+            font-weight: 600;
+
+            font-size: 23px;
+
+            background: #eee;
+
+        }
+
+    </style>
+
+    <style>
+
+        .overlay-bg {
+
+            background-color: #000000a1;
+
+        }
+
+        
+
+         @media only screen and (max-width: 576px) {
+
+            .slot-calendar {
+
+                width: 100%;
+
+                 padding: 0!important
+
+            }
+
+
+
+            .slot-date {
+
+                padding: 3px !important;
+
+            }
+
+        }
+
+    </style>
+
+    <style>
+
+        .loader {
+
+            width: 200px;
+
+            height: 140px;
+
+            background: #979794;
+
+            box-sizing: border-box;
+
+            position: relative;
+
+            border-radius: 8px;
+
+            perspective: 1000px;
+
+            position: absolute;
+
+            left: 45%;
+
+            top: 40%;
+
+        }
+
+
+
+        .loader:before {
+
+            content: '';
+
+            position: absolute;
+
+            left: 10px;
+
+            right: 10px;
+
+            top: 10px;
+
+            bottom: 10px;
+
+            border-radius: 8px;
+
+            background: #f5f5f5 no-repeat;
+
+            background-size: 60px 10px;
+
+            background-image: linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0);
+
+
+
+            background-position: 15px 30px, 15px 60px, 15px 90px,
+
+                105px 30px, 105px 60px, 105px 90px;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+
+        }
+
+
+
+        .loader:after {
+
+            content: '';
+
+            position: absolute;
+
+            width: calc(50% - 10px);
+
+            right: 10px;
+
+            top: 10px;
+
+            bottom: 10px;
+
+            border-radius: 8px;
+
+            background: #fff no-repeat;
+
+            background-size: 60px 10px;
+
+            background-image: linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0),
+
+                linear-gradient(#ddd 100px, transparent 0);
+
+            background-position: 50% 30px, 50% 60px, 50% 90px;
+
+            transform: rotateY(0deg);
+
+            transform-origin: left center;
+
+            animation: paging 1s linear infinite;
+
+        }
+
+
+
+
+
+        @keyframes paging {
+
+            to {
+
+                transform: rotateY(-180deg);
+
+            }
+
+        }
+
+
+
+        .preloader {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            background-color: #000000c9;
+
+            z-index: 9999;
+
+        }
+
+
+
+        #Loader {
+
+            display: none;
+
+        }
+
+    </style>
+
+</head>
+
+<!--background: linear-gradient(rgb(0 0 0 / 60%), rgb(76 70 70 / 60%)),-->
+
+<!--                url('{{ asset('assets/img/book-bg.png') }}');-->
+
+<body style="margin:0;">
+
+    
+
+    <div class="preloader" id="Loader">
+
+        <span class="loader"></span>
+
+    </div>
+
+    <div class="container">
+        <div class="wizard-topbar">
+            <a href="{{ route('home') }}"><img src="{{ asset('frontend/images/logo.svg') }}" alt="Blue Crown Barbers" style="height:48px;width:auto;object-fit:contain;background:transparent;"></a>
+            <a href="{{ route('home') }}" class="home-link"><i class="fas fa-home me-1"></i> Back to Home</a>
+        </div>
+
+        <div class="wizard-container">
+
+            <div class="card shadow">
+
+                <div class="card-header text-white" style="background: linear-gradient(135deg,#0A66C2,#1E3A8A) !important;">
+
+                    <h4 class="mb-0">
+
+                        <i class="bi bi-list-check me-2"></i>
+
+                        Book Your Appointment
+
+                    </h4>
+
+                </div>
+
+
+
+                <div class="card-body">
+
+                    <!-- Progress Indicator -->
+
+                    <div class="row mb-4">
+
+                        <div class="col-12">
+
+                            <div class="d-flex align-items-center justify-content-between">
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="progress-step active" id="step-indicator-1">1</div>
+
+                                    <div class="step-title">Choose Booking Method</div>
+
+                                </div>
+
+                                <div class="progress-line" id="line-1"></div>
+
+
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="progress-step pending" id="step-indicator-2">2</div>
+
+                                    <div class="step-title" id="StepSecondType">Choose Services</div>
+
+                                </div>
+
+                                <div class="progress-line" id="line-2"></div>
+
+
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="progress-step pending" id="step-indicator-3">3</div>
+
+                                    <div class="step-title">Pick Date & Time</div>
+
+                                </div>
+
+                                <div class="progress-line" id="line-3"></div>
+
+
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="progress-step pending" id="step-indicator-4">4</div>
+
+                                    <div class="step-title">Your Details</div>
+
+                                </div>
+
+                                <div class="progress-line" id="line-4"></div>
+
+
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="progress-step pending" id="step-indicator-5">5</div>
+
+                                    <div class="step-title">Confirm</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Step 1: Personal Information -->
+
+                    <div class="step-content active" id="step-1">
+
+                        <h5 class="mb-1">
+
+                            Choose Your Booking Method
+
+                        </h5>
+
+                        <p class="mb-3 text-muted">Select a service or choose your preferred staff member to start
+
+                        </p>
+
+                        <div class="row mb-3">
+
+                            <div class="col-lg-12">
+
+                                <div class="toggle-tabs">
+
+                                    <button class="tab-btn active" id="byServiceBtn"
+
+                                        onclick="showWizardTab('service')">By Service</button>
+
+                                    <button class="tab-btn" id="byStaffBtn" onclick="showWizardTab('staff')">By
+
+                                        Staff</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <input type="hidden" id="step_one_staff_service" name="step_one_staff_service">
+
+                        <input type="hidden" id="step_one_select_type" name="step_one_select_type" value="Service">
+
+
+
+                        <div id="byServicePanel">
+
+                            <div class="row">
+
+                                <label class="form-label fs-5 fw-bold mb-1">Choose Your
+
+                                    Barber</label>
+
+                                <p class="mb-3 text-muted">Select a staff member for
+
+                                    your appointment</p>
+
+
+
+                                <div class="col-md-12 mb-3">
+
+                                    @foreach ($servicesByCategory as $categoryId => $servicesGroup)
+
+                                        @php
+
+                                            $categoryName =
+
+                                                $servicesGroup->first()->category_name ?? 'Unknown Category';
+
+                                        @endphp
+
+
+
+                                        <div class="card px-4 py-3 border-0 shadow-sm" style="background: #eee;">
+
+                                            <div class="fw-bold fs-6 mb-2">
+
+                                                {{ $categoryName }} <i class="bx bx-chevron-down align-baseline"></i>
+
+                                            </div>
+
+                                            <div class="row g-3">
+
+                                                @foreach ($servicesGroup as $service)
+
+                                                    <div class="col-md-6 col-lg-4">
+
+                                                        <div
+
+                                                            class="service-card step-one-service-card px-3 py-3 h-100 d-flex flex-column justify-content-between" data-duration="{{ $service->duration }}">
+
+                                                            <input type="hidden" id="service_id" name="service_id"
+
+                                                                class="service_id_select"
+
+                                                                value="{{ $service->service_id }}">
+
+
+
+                                                            <div class="fw-semibold">{{ $service->service_name }}
+
+                                                            </div>
+
+                                                            <div
+
+                                                                class="d-flex justify-content-between align-items-center mt-2">
+
+                                                                <div class="text-muted"><i class="bx bx-time"></i>
+
+                                                                    {{ $service->duration }} min</div>
+
+                                                                <div class="fw-bold text-danger fs-6">
+
+                                                                    ${{ $service->price }}</div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                @endforeach
+
+                                            </div>
+
+                                        </div>
+
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div id="byStaffPanel" class="d-none">
+
+                            <div class="mb-4">
+
+                                <label class="form-label fs-5 fw-bold mb-1">Choose Your
+
+                                    Barber</label>
+
+                                <p class="mb-3 text-muted">Select a staff member for
+
+                                    your appointment</p>
+
+                                <div class="card px-4 py-3 border-0 shadow-sm" style="background: #eee;">
+
+                                    <div class="row g-3">
+
+                                        <!-- Any staff -->
+
+                                        @forelse ($Staff as $row)
+
+                                            <div class="col-12 col-sm-6 col-md-4">
+
+                                                <div
+
+                                                    class="staff-card step-one-staff-card d-flex align-items-center p-3 justify-content-between">
+
+                                                    <input type="hidden" id="staff_id" name="staff_id"
+
+                                                        value="{{ $row->id }}" class="staff_id_select">
+
+                                                    <div class="d-flex align-items-center">
+
+                                                        <img src="{{ $row->profile_img ? asset('storage/' . $row->profile_img) : asset('assets/img/user.png') }}"
+
+                                                            class="rounded-circle me-3" width="48" height="48"
+
+                                                            alt="Any staff" />
+
+                                                        <div>
+
+                                                            <div class="fw-semibold">{{ $row->name }}
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <span
+
+                                                        class="badge bg-light fw-semibold border border-success text-success ms-2">Available</span>
+
+                                                </div>
+
+                                            </div>
+
+                                        @empty
+
+                                            <div class="col-12">
+
+                                                <div class="shop-close-error">
+
+                                                    No Staff Found
+
+                                                </div>
+
+                                            </div>
+
+                                        @endforelse
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <!-- Step 2: Contact Details -->
+
+                    <div class="step-content" id="step-2">
+
+
+
+                        <input type="hidden" id="step_two_staff_service" name="step_two_staff_service">
+
+                        <input type="hidden" id="step_two_select_type" name="step_two_select_type" value="Staff">
+
+
+
+
+
+                        <div id="ServiceByStaffStep">
+
+                            <div class="row">
+
+                                <label class="form-label fs-5 fw-bold mb-1">Choose Your
+
+                                    Barber</label>
+
+                                <p class="mb-3 text-muted">Select a staff member for
+
+                                    your appointment</p>
+
+
+
+                                <div class="col-md-12 mb-3" id="StepTwoServiceHtml">
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div id="StaffByServiceStep">
+
+                            <div class="mb-4">
+
+                                <label class="form-label fs-5 fw-bold mb-1">Choose Your
+
+                                    Barber</label>
+
+                                <p class="mb-3 text-muted">Select a staff member for
+
+                                    your appointment</p>
+
+                                <div class="card px-4 py-3 border-0 shadow-sm" style="background: #eee;"
+
+                                    id="StepTwoStaffHtml">
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    
+
+             
+
+                    <!-- Step 3: Preferences -->
+
+                    <div class="step-content" id="step-3">
+
+                        <h5 class="mb-1">
+
+                            <i class="fa fa-calendar me-2 text-primary"></i>
+
+                            Choose Date &amp; Time
+
+                        </h5>
+
+                        <p class="text-muted mb-4">Select your preferred appointment date and time</p>
+
+                        <div class="mb-3">
+
+                            <div class="card p-2">
+
+                                <div class="mb-3">
+
+                                    <small class="text-muted"><i class="bx bx-time"></i> Slot
+
+                                        duration: <span id="ServiceMinite">0</span> minutes</small>
+
+                                </div>
+
+                                <div class="row g-5">
+
+                                    <!-- Calendar -->
+
+                                    <div class="col-lg-5">
+
+                                        {{-- <label class="mb-2 fw-semibold">Select Date</label> --}}
+
+                                        <div class="d-inline-block bg-white border rounded p-3 slot-calendar" sty>
+
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                                <button class="btn btn-link btn-sm px-2" id="prevMonthBtn"><i
+
+                                                        class="fa fa-chevron-left" style="color: #000;"></i></button>
+
+                                                <span id="calendarMonth" class="fw-semibold">September 2025</span>
+
+                                                <button class="btn btn-link btn-sm px-2" id="nextMonthBtn"><i
+
+                                                        class="fa fa-chevron-right" style="color: #000;"></i></button>
+
+                                            </div>
+
+                                            <table class="table table-borderless mb-0" id="calendarTable">
+
+                                                <thead>
+
+                                                    <tr class="text-center text-muted">
+
+                                                        <th class="fw-normal py-1">Su</th>
+
+                                                        <th class="fw-normal py-1">Mo</th>
+
+                                                        <th class="fw-normal py-1">Tu</th>
+
+                                                        <th class="fw-normal py-1">We</th>
+
+                                                        <th class="fw-normal py-1">Th</th>
+
+                                                        <th class="fw-normal py-1">Fr</th>
+
+                                                        <th class="fw-normal py-1">Sa</th>
+
+                                                    </tr>
+
+                                                </thead>
+
+                                                <tbody id="calendarBody">
+
+                                                    <!-- Calendar days filled via JS -->
+
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Time slots -->
+
+                                    <div class="col-lg-7">
+
+                                        <div class="mb-2 fw-semibold">Select Time</div>
+
+                                        <div class="mb-2 text-muted">Duration: <span id="ServiceMinite1">0</span> minutes</div>
+
+                                        <div class="row  g-2">
+
+                                            {{-- <div class="col-lg-12">
+
+                                                <div class="toggle-tabs">
+
+                                                    <button class="tab-btn active" id="byMorning"
+
+                                                        onclick="SlotTime('Morning')">Morning</button>
+
+                                                    <button class="tab-btn" id="byEvening"
+
+                                                        onclick="SlotTime('Evening')">Evening</button>
+
+                                                </div>
+
+                                            </div> --}}
+
+
+
+                                            <div class="col-lg-12" id="timeSlotsMorning">
+
+                                                <div class="d-flex flex-wrap gap-2" id="MorningSlotHtml">
+
+
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            {{-- <div class="col-lg-12 d-none" id="timeSlotsEvening">
+
+                                                <div class="d-flex flex-wrap gap-2" id="EveningSlotHtml">
+
+
+
+                                                </div>
+
+                                            </div> --}}
+
+
+
+
+
+                                            <!-- Time slot buttons generated via JS -->
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Step 4: Security -->
+
+                    <div class="step-content" id="step-4">
+
+                        <h5 class="mb-3">
+
+                            <i class="bi bi-envelope-fill me-2 text-primary"></i>
+
+                            Contact Details
+
+                        </h5>
+
+                        <div class="mb-3">
+
+                            <label for="phone" class="form-label">Full Name <span
+
+                                    style="color: red;">*</span></label>
+
+                            <input type="text" class="form-control" id="full_name" name="full_name"
+
+                                placeholder="Enter Your Full Name">
+
+                        </div>
+
+
+
+                        <div class="mb-3">
+
+                            <label for="email" class="form-label">Phone Number <span style="color: red;">*</span>
+
+                            </label>
+
+                            <input type="tel" class="form-control" id="phone_number" name="phone_number"
+
+                                placeholder="Enter Phone Number" maxlength="10">
+
+                        </div>
+
+
+
+                        <div class="mb-3">
+
+                            <label for="phone" class="form-label">Email (Optional)</label>
+
+                            <input type="email" class="form-control" id="email" name="email"
+
+                                placeholder="Enter Your Email">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label for="note" class="form-label">Notes (Optional)</label>
+
+                            <textarea class="form-control" id="note" name="note" rows="3" placeholder="Enter Note"></textarea>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+                    <!-- Step 5: Review -->
+
+                    <div class="step-content" id="step-5">
+
+                        <h5 class="mb-3">
+
+                            <i class="bi bi-check-circle-fill me-2 text-primary"></i>
+
+                            Confirm Your Booking
+
+                        </h5>
+
+
+
+                        <div class="summary-card">
+
+                            <div class="summary-section">
+
+                                <div class="summary-row">
+
+                                    <span class="summary-icon"><i class="fa fa-calendar"></i></span>
+
+                                    <div>
+
+                                        <div class="summary-label">Date &amp; Time</div>
+
+                                        <div class="summary-value" id="AppointmentDate"></div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="summary-row">
+
+                                    <span class="summary-icon"><i class="fa fa-clock-o"></i></span>
+
+                                    <div>
+
+                                        <div class="summary-label">Duration</div>
+
+                                        <div class="summary-value" id="TotalDuration"></div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="summary-section">
+
+                                <div class="summary-row">
+
+                                    <span class="summary-icon"><i class="fa fa-scissors"></i></span>
+
+                                    <div class="summary-label">Services</div>
+
+                                </div>
+
+                                <div class="service-details" id="ViewServiceHtml">
+
+
+
+                                </div>
+
+                            </div>
+
+                            <div class="summary-section" id="ViewStaffHtml">
+
+
+
+                            </div>
+
+                            <div class="summary-section">
+
+                                <div class="summary-row">
+
+                                    <span class="summary-icon"><i class="fa fa-user-o"></i></span>
+
+                                    <div class="summary-label">Customer Details</div>
+
+                                </div>
+
+                                <div class="customer-details">
+
+                                    <div><b>Name:</b> <span id="PreviewName">Mukesh Suthar</span></div>
+
+                                    <div><b>Email:</b> <span id="PreviewEmail">superadmin@gmail.com</span></div>
+
+                                    <div><b>Phone:</b> <span id="PreviewPhone">7296930519</span></div>
+
+                                    <div><b>Note :</b> <span id="PreviewNote">7296930519</span></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Navigation Buttons -->
+
+                <div class="card-footer bg-light">
+
+                    <div class="d-flex justify-content-between">
+
+                        <button type="button" class="btn btn-outline-secondary" id="prevBtn"
+
+                            onclick="changeStep(-1,true)" disabled>
+
+                            <i class="bi bi-arrow-left me-1"></i>
+
+                            Previous
+
+                        </button>
+
+                        <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">
+
+                            Next
+
+                            <i class="bi bi-arrow-right ms-1"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <style>
+
+        .success-message {
+
+            font-weight: 700;
+
+            color: #2d7a2d;
+
+            margin-bottom: 24px;
+
+            font-size: 1.8rem;
+
+        }
+
+
+
+        .button-group .btn {
+
+            padding: 12px 28px;
+
+            font-size: 1.1rem;
+
+            border-radius: 50px;
+
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+        }
+
+
+
+        .btn-primary {
+
+            background-color: #2d7a2d;
+
+            color: #fff;
+
+            border: none;
+
+        }
+
+
+
+        .btn-primary:hover {
+
+            background-color: #246622;
+
+            color: #fff;
+
+            text-decoration: none;
+
+        }
+
+
+
+        .btn-outline-primary {
+
+            background-color: transparent;
+
+            border: 2px solid #2d7a2d;
+
+            color: #2d7a2d;
+
+        }
+
+
+
+        .btn-outline-primary:hover {
+
+            background-color: #2d7a2d;
+
+            color: #fff;
+
+            text-decoration: none;
+
+        }
+
+
+
+        .ms-3 {
+
+            margin-left: 1rem !important;
+
+        }
+
+    </style>
+
+    <div class="modal fade" id="SuccessMsgModal" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                {{-- <div class="modal-header">
+
+                    <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div> --}}
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-lg-12" style="text-align: center;">
+
+                            <img src="{{ asset('assets/img/Completed.png') }}" style="max-width: 70%;"
+
+                                alt="Success">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row g-6">
+
+                        <div class="col-lg-12 text-center">
+
+                            <h4 class="success-message">Your Appointment Was Successfully Booked!</h4>
+
+                            <div class="button-group">
+
+                                <a href="https://immiapp.com/barbar-shop/frontend/barber-front/index-2.html"
+
+                                    class="btn btn-primary">Go to Website</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <input type="hidden" id="final_staff_id" name="final_staff_id">
+
+    <input type="hidden" id="final_service_id" name="final_service_id">
+
+    <input type="hidden" id="selectedSlotStartValue" name="selectedSlotStartValue">
+
+    <input type="hidden" id="selectedSlotEndValue" name="selectedSlotEndValue">
+
+    <input type="hidden" id="total_amt" name="total_amt">
+
+    <input type="hidden" id="appointment_date" name="appointment_date">
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>
+
+        // Step One 
+
+        $(document).ready(function() {
+
+            $('.step-one-service-card').on('click', function() {
+
+                // Toggle active class on click
+
+                $(this).toggleClass('active');
+
+
+
+                var total_duration = 0; // Initialize total duration
+
+
+
+                // Collect all active service names
+
+                var selected_service = [];
+
+                $('.service-card.active').each(function() {
+
+                    // Find the .fw-semibold inside this card
+
+                    var serviceName = $(this).find('.service_id_select').val().trim();
+
+                    selected_service.push(serviceName);
+
+
+
+                    var duration = parseInt($(this).data('duration')) || 0; // Get duration from data attribute
+
+
+
+                    total_duration += duration; // Sum durations
+
+                });
+
+
+
+                // Set comma-separated string to hidden input
+
+                $('#step_one_staff_service').val(selected_service.join(','));
+
+                $('#final_service_id').val(selected_service.join(','));
+
+
+
+
+
+                $("#ServiceMinite").html(total_duration);
+
+                $("#ServiceMinite1").html(total_duration);
+
+
+
+                
+
+            });
+
+
+
+
+
+            $('.step-one-staff-card').on('click', function() {
+
+                // Remove 'selected' class from all cards
+
+                $('.step-one-staff-card').removeClass('selected');
+
+
+
+                // Add 'selected' class to the clicked card
+
+                $(this).addClass('selected');
+
+
+
+                // Get the selected staff_id from the clicked card only
+
+                var selectedstaff_id = $(this).find('.staff_id_select').val().trim();
+
+
+
+                // Set the value to hidden input
+
+                $('#step_one_staff_service').val(selectedstaff_id);
+
+                $('#final_staff_id').val(selectedstaff_id);
+
+
+
+
+
+            });
+
+
+
+        });
+
+
+
+        $(document).on('click', '.step-two-service-card', function() {
+
+            // Toggle active class on click
+
+            $(this).toggleClass('active');
+
+
+
+            // Collect all active service ids
+
+            var selected_service = [];
+
+            $('.step-two-service-card.active').each(function() {
+
+                var serviceId = $(this).find('.step_two_service_id_select').val().trim();
+
+                selected_service.push(serviceId);
+
+            });
+
+
+
+            // Set comma-separated string to hidden input
+
+            $('#step_two_staff_service').val(selected_service.join(','));
+
+            $('#final_service_id').val(selected_service.join(','));
+
+        });
+
+        $(document).on('click', '.step-two-staff-card', function() {
+
+            // Remove 'selected' class from all step-two staff cards
+
+            $('.step-two-staff-card').removeClass('selected');
+
+
+
+            // Add 'selected' class to the clicked card
+
+            $(this).addClass('selected');
+
+
+
+            // Get selected staff id from the clicked card
+
+            var selectedstaff_id = $(this).find('.step_two_staff_id_select').val().trim();
+
+
+
+            // Set value to hidden input
+
+            $('#step_two_staff_service').val(selectedstaff_id);
+
+            $('#final_staff_id').val(selectedstaff_id);
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+        function showWizardTab(tab) {
+
+            let byServicePanel = document.getElementById('byServicePanel');
+
+            let byStaffPanel = document.getElementById('byStaffPanel');
+
+            let byServiceBtn = document.getElementById('byServiceBtn');
+
+            let byStaffBtn = document.getElementById('byStaffBtn');
+
+            if (tab === 'service') {
+
+                byServicePanel.classList.remove('d-none');
+
+                byStaffPanel.classList.add('d-none');
+
+                byServiceBtn.classList.add('active');
+
+                byStaffBtn.classList.remove('active');
+
+
+
+                document.getElementById("StepSecondType").innerHTML = "Select Staff";
+
+                document.getElementById("ServiceByStaffStep").style.display = "none";
+
+                document.getElementById("StaffByServiceStep").style.display = "block";
+
+
+
+
+
+                $("step_two_select_type").val("Staff");
+
+
+
+                $("#step_one_select_type").val("Service");
+
+            } else {
+
+                byServicePanel.classList.add('d-none');
+
+                byStaffPanel.classList.remove('d-none');
+
+                byServiceBtn.classList.remove('active');
+
+                byStaffBtn.classList.add('active');
+
+
+
+                document.getElementById("StepSecondType").innerHTML = "Select Service";
+
+
+
+                document.getElementById("ServiceByStaffStep").style.display = "block";
+
+                document.getElementById("StaffByServiceStep").style.display = "none";
+
+                $("#step_one_select_type").val("Staff");
+
+
+
+                $("step_two_select_type").val("Service");
+
+            }
+
+        }
+
+    </script>
+
+
+
+    <script>
+
+        function SlotTime(typ) {
+
+            let byMorning = document.getElementById('byMorning');
+
+            let byEvening = document.getElementById('byEvening');
+
+            let timeSlotsMorning = document.getElementById('timeSlotsMorning');
+
+            let timeSlotsEvening = document.getElementById('timeSlotsEvening');
+
+
+
+            if (typ === 'Morning') {
+
+                timeSlotsMorning.classList.remove('d-none');
+
+                timeSlotsEvening.classList.add('d-none');
+
+                byMorning.classList.add('active');
+
+                byEvening.classList.remove('active');
+
+            } else {
+
+                timeSlotsMorning.classList.add('d-none');
+
+                timeSlotsEvening.classList.remove('d-none');
+
+                byMorning.classList.remove('active');
+
+                byEvening.classList.add('active');
+
+            }
+
+        }
+
+    </script>
+
+    <script>
+
+      function loadServiceStaff(staff_service_id, select_type) {
+
+            var data = {
+
+                'staff_service_id': staff_service_id,
+
+                'select_type': select_type,
+
+            }
+
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+
+            $.ajax({
+
+                type: "POST",
+
+                url: "{{ route('get-staff-service') }}",
+
+                data: data,
+
+                dataType: "json",
+
+                success: function(response) {
+
+
+
+                    if (response.status == 1) {
+
+                        // -------- When user selects SERVICE (show services grouped by category)
+
+                        if (select_type === "Service") {
+
+                            var staffs = response.staff; // backend से staff list
+
+
+
+                            const storagePath = "{{ asset('storage') }}/";
+
+                            const defaultImg = "{{ asset('assets/img/user.png') }}";
+
+
+
+
+
+                            let html = '';
+
+                            if (staffs && staffs.length > 0) {
+
+                                staffs.forEach(staff => {
+
+                                    let profileImg = staff.profile_img ?
+
+                                        storagePath + staff.profile_img :
+
+                                        defaultImg;
+
+
+
+
+
+                                    html += `
+
+        <div class="col-12 col-sm-6 col-md-4">
+
+            <div class="staff-card step-two-staff-card d-flex align-items-center p-3 justify-content-between">
+
+                <input type="hidden" 
+
+                    id="step_two_staff_id" 
+
+                    name="step_two_staff_id"
+
+                    value="${staff.id}" 
+
+                    class="step_two_staff_id_select">
+
+                
+
+                <div class="d-flex align-items-center">
+
+                    <img src="${profileImg}" 
+
+                        class="rounded-circle me-3" 
+
+                        width="48" height="48"
+
+                        alt="${staff.name || 'Staff'}" />
+
+                    
+
+                    <div>
+
+                        <div class="fw-semibold">${staff.name}</div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <span class="badge bg-light fw-semibold border border-success text-success ms-2">
+
+                    Available
+
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+                                });
+
+                            } else {
+
+                                html = `
+
+        <div class="col-12">
+
+            <div style="text-align: center;">
+
+                <i class="fa fa-exclamation-circle me-2"></i>
+
+                Staff Not Available
+
+            </div>
+
+        </div>
+
+    `;
+
+                            }
+
+
+
+                            $("#StepTwoStaffHtml").html(`<div class="row g-3">${html}</div>`);
+
+                        }
+
+                        // -------- When user selects STAFF (show staff & his services)
+
+                        else if (select_type === "Staff") {
+
+                            var data = response.data; // अब category-wise आएगा
+
+
+
+                            console.log(data);
+
+                            let StaffList = ``;
+
+
+
+                            if (data && data.length > 0) {
+
+                                data.forEach(category => {
+
+                                    StaffList += `
+
+            <div class="card px-4 py-3 border-0 shadow-sm mb-3" style="background: #eee;">
+
+                <div class="fw-bold fs-6 mb-2">
+
+                    ${category.category_name} <i class="bx bx-chevron-down align-baseline"></i>
+
+                </div>
+
+                <div class="row g-3">`;
+
+
+
+                                    if (category.services && category.services.length > 0) {
+
+                                        category.services.forEach(service => {
+
+                                            StaffList += `
+
+                    <div class="col-md-6 col-lg-4">
+
+                        <div class="service-card step-two-service-card px-3 py-3 h-100 d-flex flex-column justify-content-between" 
+
+                             data-duration="${service.duration}">
+
+                             
+
+                            <input type="hidden" 
+
+                                class="step_two_service_id_select" 
+
+                                value="${service.service_id}">
+
+                            
+
+                            <div class="fw-semibold">${service.service_name}</div>
+
+                            
+
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+
+                                <div class="text-muted"><i class="bx bx-time"></i> ${service.duration} min</div>
+
+                                <div class="fw-bold text-danger fs-6">$${service.price}</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>`;
+
+                                        });
+
+                                    } else {
+
+                                        StaffList += `
+
+                <div class="col-12">
+
+                    <div class="text-center text-muted">
+
+                        <i class="fa fa-exclamation-circle me-2"></i>
+
+                        No Services Available in this Category
+
+                    </div>
+
+                </div>`;
+
+                                    }
+
+
+
+                                    StaffList += `</div></div>`;
+
+                                });
+
+                            } else {
+
+                                StaffList = `
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center mb-0">
+
+                <i class="fa fa-exclamation-circle me-2"></i>
+
+                Service Not Available
+
+            </div>
+
+        </div>`;
+
+                            }
+
+
+
+                            $("#StepTwoServiceHtml").html(StaffList);
+
+
+
+
+
+                        }
+
+                    } else {
+
+                        console.error("No data found");
+
+                    }
+
+                }
+
+            });
+
+
+
+            return false;
+
+        }
+
+
+
+        function updateStepIndicators(oldStep, newStep) {
+
+            // Update old step indicator
+
+            const oldIndicator = document.getElementById(`step-indicator-${oldStep}`);
+
+            if (newStep > oldStep) {
+
+                oldIndicator.className = 'progress-step completed';
+
+                oldIndicator.innerHTML = '<i class="bi bi-check"></i>';
+
+
+
+                // Update progress line
+
+                if (oldStep < totalSteps) {
+
+                    document.getElementById(`line-${oldStep}`).classList.add('completed');
+
+                }
+
+            } else {
+
+                oldIndicator.className = 'progress-step pending';
+
+                oldIndicator.textContent = oldStep;
+
+
+
+                // Update progress line
+
+                if (oldStep < totalSteps) {
+
+                    document.getElementById(`line-${oldStep}`).classList.remove('completed');
+
+                }
+
+            }
+
+
+
+            // Update new step indicator
+
+            const newIndicator = document.getElementById(`step-indicator-${newStep}`);
+
+            newIndicator.className = 'progress-step active';
+
+            newIndicator.textContent = newStep;
+
+        }
+
+
+
+        function updateButtons() {
+
+            const prevBtn = document.getElementById('prevBtn');
+
+            const nextBtn = document.getElementById('nextBtn');
+
+
+
+            prevBtn.disabled = currentStep === 1;
+
+
+
+            if (currentStep === totalSteps) {
+
+                nextBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i> Book Now';
+
+                nextBtn.onclick = completeWizard;
+
+            } else {
+
+                nextBtn.innerHTML = 'Next <i class="bi bi-arrow-right ms-1"></i>';
+
+                nextBtn.onclick = () => changeStep(1);
+
+            }
+
+        }
+
+
+
+        function completeWizard() {
+
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+
+
+            if (!agreeTerms) {
+
+                alert('Please agree to the Terms of Service and Privacy Policy to continue.');
+
+                return;
+
+            }
+
+
+
+            // Simulate form submission
+
+            const nextBtn = document.getElementById('nextBtn');
+
+            nextBtn.disabled = true;
+
+            nextBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+
+
+            setTimeout(() => {
+
+                alert('Account setup completed successfully! Welcome aboard!');
+
+                nextBtn.disabled = false;
+
+                nextBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i> Complete Setup';
+
+            }, 2000);
+
+        }
+
+    </script>
+
+    <script>
+
+        // Calendar rendering
+
+        const currentDate = new Date();
+
+        let selectedYear = currentDate.getFullYear();
+
+        let selectedMonth = currentDate.getMonth(); // 0-based (Jan = 0)
+
+        let selectedDay = currentDate.getDate(); // Today's date by default
+
+        let dayName = new Intl.DateTimeFormat('en-US', {
+
+            weekday: 'long'
+
+        }).format(currentDate);
+
+
+
+        let currentStep = 1;
+
+        const totalSteps = 5;
+
+
+
+        function changeStep(direction, skipValidation = false) {
+
+            if (!skipValidation) {
+
+                if (currentStep == 1) {
+
+                    let step_one_staff_service = $("#step_one_staff_service").val();
+
+                    if (!step_one_staff_service) {
+
+                        alert("Please Select Service Or Staff");
+
+                        return false;
+
+                    }
+
+                    let step_one_select_type = $("#step_one_select_type").val();
+
+                    loadServiceStaff(step_one_staff_service, step_one_select_type);
+
+                } else if (currentStep == 2) {
+
+                    let final_staff_id = $("#final_staff_id").val();
+
+                    let final_service_id = $("#final_service_id").val();
+
+                    if (!final_staff_id || !final_service_id) {
+
+                        alert("Please Select Service or Staff");
+
+                        return false;
+
+                    }
+
+                    const currentDate = new Date();
+
+                    let selectedDay = currentDate.getDate();
+
+                    selectDay(selectedDay);
+
+                } else if (currentStep == 3) {
+
+                    let selectedSlotStartValue = $("#selectedSlotStartValue").val();
+
+                    if (!selectedSlotStartValue) {
+
+                        alert("Please Select Slot");
+
+                        return false;
+
+                    }
+
+                } else if (currentStep == 4) {
+
+                    let phone_number = $("#phone_number").val();
+
+                    let full_name = $("#full_name").val();
+
+                    if (!phone_number) {
+
+                        alert("Please Enter Phone No.");
+
+                        return false;
+
+                    } else if (!full_name) {
+
+                        alert("Please Enter Full Name.");
+
+                        return false;
+
+                    }
+
+                    FetchAppointmentDetails();
+
+                }
+
+            }
+
+
+
+            const newStep = currentStep + direction;
+
+            if (newStep < 1 || newStep > totalSteps) return;
+
+
+
+            document.getElementById(`step-${currentStep}`).classList.remove("active");
+
+            updateStepIndicators(currentStep, newStep);
+
+            currentStep = newStep;
+
+            document.getElementById(`step-${currentStep}`).classList.add("active");
+
+            updateButtons();
+
+        }
+
+
+
+
+
+        function updateButtons() {
+
+            const prevBtn = document.getElementById("prevBtn");
+
+            const nextBtn = document.getElementById("nextBtn");
+
+
+
+            // Enable/disable prev button
+
+            prevBtn.disabled = currentStep === 1;
+
+
+
+            if (currentStep === totalSteps) {
+
+                // Change Next to Finish
+
+                nextBtn.innerHTML = `Finish <i class="bi bi-check-lg ms-1"></i>`;
+
+                nextBtn.onclick = function() {
+
+                    updateReviewSection();
+
+                };
+
+            } else {
+
+                // Change back to Next
+
+                nextBtn.innerHTML = `Next <i class="bi bi-arrow-right ms-1"></i>`;
+
+                nextBtn.onclick = function() {
+
+                    changeStep(1);
+
+                };
+
+            }
+
+        }
+
+
+
+        // Called only on Finish
+
+        function updateReviewSection() {
+
+            var staff_id = $("#final_staff_id").val();
+
+            var service_id = $("#final_service_id").val();
+
+            var slot_start = $("#selectedSlotStartValue").val();
+
+            var slot_end = $("#selectedSlotEndValue").val();
+
+
+
+            var phone_number = $("#phone_number").val();
+
+            var full_name = $("#full_name").val();
+
+            var email = $("#email").val();
+
+            var note = $("#note").val();
+
+            var total_amt = $("#total_amt").val();
+
+
+
+            // Create a proper Date object (month is 0-based in JS, so subtract 1)
+
+            let dateObj = new Date(selectedYear, selectedMonth, selectedDay);
+
+
+
+            // Pad month/day with leading zero
+
+            let year = dateObj.getFullYear();
+
+            let month = String(dateObj.getMonth() + 1).padStart(2, '0'); // add 1 because month is 0-based
+
+            let day = String(dateObj.getDate()).padStart(2, '0');
+
+
+
+            let selectedDate = `${year}-${month}-${day}`;
+
+
+
+            var data = {
+
+                "staff_id": staff_id,
+
+                "service_id": service_id,
+
+                "slot_start": slot_start,
+
+                "slot_end": slot_end,
+
+                "phone_number": phone_number,
+
+                "full_name": full_name,
+
+                "email": email,
+
+                "note": note,
+
+                "date": selectedDate,
+
+                "total_amt": total_amt
+
+            }
+
+            
+
+            
+
+            document.getElementById("Loader").style.display = "block";
+
+
+
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+
+            $.ajax({
+
+                type: "POST",
+
+                url: "{{ route('submit-appointment-details') }}",
+
+                data: data,
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    document.getElementById("Loader").style.display = "none";
+
+                    if (response.status === 1) {
+
+                        
+
+                        
+
+
+                        Swal.fire({
+
+                                            icon: 'success',
+
+                                            title: 'Success',
+
+                                            text: response.message,
+
+                                            showConfirmButton: false,
+
+                                            timer: 2000
+
+                                        });
+
+
+
+                        setTimeout(function() {
+
+                            window.location.href =
+
+                                "{{ route('home') }}";
+
+                        }, 3000);
+ gtag('event', 'conversion', {
+
+                            'send_to': 'AW-17733466405/hfY5CLST8c4bEKXy_IdC',
+
+                            'value': total_amt,
+
+                            'currency': 'CAD'
+
+                          });
+
+                    } else {
+
+                        alert(response.message);
+
+                    }
+
+                }
+
+            });
+
+            return false;
+
+        }
+
+
+
+
+
+        function FetchAppointmentDetails() {
+
+            var staff_id = $("#final_staff_id").val();
+
+            var service_id = $("#final_service_id").val();
+
+            var slot_start_value = $("#selectedSlotStartValue").val();
+
+            var slot_end_value = $("#selectedSlotEndValue").val();
+
+
+
+
+
+            var phone_number = $("#phone_number").val();
+
+            var full_name = $("#full_name").val();
+
+            var email = $("#email").val();
+
+            var note = $("#note").val();
+
+
+
+            $("#PreviewName").html(full_name);
+
+            $("#PreviewEmail").html(email);
+
+            $("#PreviewPhone").html(phone_number);
+
+            $("#PreviewNote").html(note);
+
+
+
+
+
+            var data = selectedYear + "-" + selectedMonth + "-" + selectedDay;
+
+
+
+
+
+            // Create a proper Date object (month is 0-based in JS, so subtract 1)
+
+            var dateObj = new Date(selectedYear, selectedMonth, selectedDay);
+
+
+
+            // Format into "September 8, 2025"
+
+            var formattedDate = dateObj.toLocaleDateString("en-US", {
+
+                year: "numeric",
+
+                month: "long",
+
+                day: "numeric"
+
+            });
+
+
+
+
+
+
+
+            var slot_start_display = formatTimeWithAmPm(slot_start_value);
+
+
+
+            $("#AppointmentDate").html(formattedDate + " at " + slot_start_display)
+
+
+
+
+
+            var data = {
+
+                'staff_id': staff_id,
+
+                'service_id': service_id,
+
+                'slot_start_value': slot_start_value,
+
+                'slot_end_value': slot_end_value,
+
+            }
+
+
+
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+
+            $.ajax({
+
+                type: "POST",
+
+                url: "{{ route('get-appointment-details') }}",
+
+                data: data,
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    if (response.status === 1) {
+
+
+
+                        var staff = response.staff;
+
+                        var services = response.services;
+
+
+
+                        var serviceList = ``;
+
+                        var totalPrice = 0;
+
+                        var totalDurection = 0;
+
+
+
+                        services.forEach(element => {
+
+                            // Add up price
+
+                            totalPrice += parseFloat(element.price);
+
+                            totalDurection += parseFloat(element.duration);
+
+
+
+                            serviceList += `
+
+        <div class="service-row">
+
+            <div>
+
+                <div class="service-name">${element.service_name}</div>
+
+                <div class="service-duration">
+
+                    <i class="fa fa-clock-o"></i> ${element.duration} min
+
+                </div>
+
+            </div>
+
+            <div class="service-price">$${parseFloat(element.price).toFixed(2)}</div>
+
+        </div>
+
+    `;
+
+                        });
+
+
+
+                        var ServiceHtml = `
+
+    ${serviceList}
+
+    <div class="service-row total-row">
+
+        <div class="service-total-label">Total</div>
+
+        <div class="service-price service-total-amount">$${totalPrice.toFixed(2)}</div>
+
+    </div>
+
+`;
+
+
+
+                        $("#ViewServiceHtml").html(ServiceHtml);
+
+                        $("#TotalDuration").html(totalDurection + " Minite");
+
+
+
+                        $("#total_amt").val(totalPrice);
+
+
+
+                        var StffHtml = `
+
+    <div class="summary-row">
+
+        <span class="summary-icon"><i class="fa fa-user-o"></i></span>
+
+        <div class="summary-label">Staff</div>
+
+    </div>
+
+    <div class="staff-details">
+
+        <span class="staff-avatar">${staff.name.charAt(0)}</span>
+
+        <span class="staff-name">${staff.name}</span>
+
+    </div>
+
+`;
+
+
+
+                        $("#ViewStaffHtml").html(StffHtml);
+
+
+
+                    } else {
+
+                        Swal.fire({
+
+                            icon: 'warning',
+
+                            title: 'Warning',
+
+                            text: response.message,
+
+                            showConfirmButton: false,
+
+                            timer: 2000
+
+                        });
+
+                    }
+
+                }
+
+            });
+
+            return false;
+
+
+
+        }
+
+
+
+
+
+        function formatTimeWithAmPm(time) {
+
+            let [hour, minute] = time.split(":").map(Number);
+
+            let ampm = hour >= 12 ? "PM" : "AM";
+
+            hour = hour % 12 || 12; // convert "0" to "12"
+
+            return `${hour}:${minute.toString().padStart(2, "0")} ${ampm}`;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const calendarMonth = document.getElementById('calendarMonth');
+
+        const calendarBody = document.getElementById('calendarBody');
+
+        const prevMonthBtn = document.getElementById('prevMonthBtn');
+
+        const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+
+
+        // Helper to get days in month:
+
+        function daysInMonth(year, month) {
+
+            return new Date(year, month + 1, 0).getDate();
+
+        }
+
+
+
+       function renderCalendar() {
+
+            calendarMonth.textContent = new Date(selectedYear, selectedMonth).toLocaleString('default', {
+
+                month: 'long',
+
+                year: 'numeric'
+
+            });
+
+            calendarBody.innerHTML = '';
+
+
+
+            const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
+
+            const numDays = daysInMonth(selectedYear, selectedMonth);
+
+            const today = new Date(); // current date
+
+            const todayYear = today.getFullYear();
+
+            const todayMonth = today.getMonth();
+
+            const todayDay = today.getDate();
+
+
+
+            let tr = document.createElement('tr');
+
+
+
+            // Blank days start
+
+            for (let i = 0; i < firstDay; i++) {
+
+                tr.appendChild(document.createElement('td'));
+
+            }
+
+
+
+            // Days
+
+            for (let day = 1; day <= numDays; day++) {
+
+                if (tr.children.length === 7) {
+
+                    calendarBody.appendChild(tr);
+
+                    tr = document.createElement('tr');
+
+                }
+
+
+
+                const td = document.createElement('td');
+
+                td.className = "text-center slot-date";
+
+
+
+                // check if this date is before today
+
+                const isPastDay =
+
+                    (selectedYear < todayYear) ||
+
+                    (selectedYear === todayYear && selectedMonth < todayMonth) ||
+
+                    (selectedYear === todayYear && selectedMonth === todayMonth && day < todayDay);
+
+
+
+                if (isPastDay) {
+
+                    td.innerHTML = `<button class="btn btn-sm px-2 py-1 btn-secondary text-white" disabled>${day}</button>`;
+
+                } else {
+
+                    td.innerHTML = `<button class="btn btn-sm px-2 py-1 ${day === selectedDay ? 'btn-primary text-white fw-semibold' : 'btn-light'}" 
+
+                onclick="selectDay(${day})">${day}</button>`;
+
+                }
+
+
+
+                tr.appendChild(td);
+
+            }
+
+
+
+            // Fill remaining days
+
+            while (tr.children.length < 7) {
+
+                tr.appendChild(document.createElement('td'));
+
+            }
+
+            calendarBody.appendChild(tr);
+
+        }
+
+
+
+        function selectDay(day) {
+
+            $("#MorningSlotHtml").html(""); // reset container
+
+
+
+            selectedDay = day; // सिर्फ selectedDay update होगा
+
+            var final_staff_id = $("#final_staff_id").val();
+
+            var final_service_id = $("#final_service_id").val();
+
+
+
+
+
+            let selectedDate = new Date(selectedYear, selectedMonth, selectedDay); // month is 0-based
+
+
+
+            // Get full day name
+
+            let dayName = new Intl.DateTimeFormat('en-US', {
+
+                weekday: 'long'
+
+            }).format(selectedDate);
+
+
+
+            var data = {
+
+                'selectedYear': selectedYear,
+
+                'selectedMonth': selectedMonth,
+
+                'selectedDay': selectedDay,
+
+                'staff_id': final_staff_id,
+
+                'service_id': final_service_id,
+
+                'day_name': dayName
+
+            }
+
+
+
+
+
+            console.log(data);
+
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+
+            $.ajax({
+
+                type: "POST",
+
+                url: "{{ route('get-slot-by-staff') }}",
+
+                data: data,
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    console.log(response);
+
+                    if (response.status == 1) {
+
+
+
+
+
+
+
+                        // Render morning slots
+
+                            if (response.slots && response.slots.length) {
+
+                            let MorningSlotHtml = '';
+
+                            response.slots.forEach(slot => {
+
+                                const slotText = formatTime(slot.start); // convert to 12h format
+
+                                slotTimes.push(slot.start); // keep original time in global array
+
+
+
+                                MorningSlotHtml += `
+
+            <div class="col-auto">
+
+                <button type="button" 
+
+                        class="btn btn-outline-light border text-start d-flex align-items-center slot-btn" 
+
+                        onclick="selectSlot(this, '${slot.start}', '${slot.end}')">
+
+                    <i class="bx bx-time me-1"></i> ${slotText}
+
+                </button>
+
+            </div>
+
+        `;
+
+                            });
+
+
+
+                            $("#MorningSlotHtml").html(MorningSlotHtml); // reset container
+
+                        } else {
+
+                            $("#MorningSlotHtml").html(
+
+                                "<p class='shop-close-error text-danger fw-semibold'>Slot Not Available</p>"
+
+                            );
+
+                        }
+
+
+
+
+
+                        selectedDay = day;
+
+                        renderCalendar();
+
+        
+
+                    } else {
+
+                        $("#MorningSlotHtml").html("<p class='shop-close-error'>" + response.message + "</p>");
+
+                        $("#EveningSlotHtml").html("<p class='shop-close-error'>" + response.message + "</p>");
+
+                    }
+
+
+
+
+
+                }
+
+            });
+
+            return false;
+
+        }
+
+        
+
+        
+
+        
+
+        function formatTime(timeStr) {
+
+            let [hours, minutes] = timeStr.split(':').map(Number);
+
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12 || 12; // convert 0 -> 12
+
+            hours = hours < 10 ? "0" + hours : hours; // add leading zero
+
+            return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+
+        }
+
+
+
+        function selectSlot(button, start, end) {
+
+            // Remove 'active' class from all buttons
+
+            document.querySelectorAll('.slot-btn').forEach(btn => {
+
+                btn.classList.remove('active');
+
+            });
+
+
+
+            // Add 'active' class to clicked button
+
+            button.classList.add('active');
+
+
+
+            // Store selected value in hidden inputs
+
+            document.getElementById('selectedSlotStartValue').value = start; // start time
+
+            document.getElementById('selectedSlotEndValue').value = end; // end time
+
+        }
+
+
+
+
+
+
+
+
+
+        // Navigation
+
+        prevMonthBtn.onclick = () => {
+
+            if (selectedMonth > 0) {
+
+                selectedMonth--;
+
+            } else {
+
+                selectedYear--;
+
+                selectedMonth = 11;
+
+            }
+
+            renderCalendar();
+
+        };
+
+        nextMonthBtn.onclick = () => {
+
+            if (selectedMonth < 11) {
+
+                selectedMonth++;
+
+            } else {
+
+                selectedYear++;
+
+                selectedMonth = 0;
+
+            }
+
+            renderCalendar();
+
+        };
+
+        // For demo, keep static month/year as per your image
+
+        renderCalendar();
+
+
+
+        // Time slots
+
+        const slotTimes = [
+
+            '9:00 AM', '9:30 AM', '10:00 AM',
+
+            '10:30 AM', '11:00 AM', '11:30 AM',
+
+            '12:00 PM', '12:30 PM', '1:00 PM',
+
+            '1:30 PM', '2:00 PM', '2:30 PM',
+
+            '3:00 PM', '3:30 PM', '4:00 PM',
+
+            '4:30 PM', '5:00 PM', '5:30 PM'
+
+        ];
+
+        const timeSlotsDiv = document.getElementById('timeSlots');
+
+        let selectedSlot = null;
+
+        // For demo: only enable up to and including 4:30 PM
+
+        const enabledSlots = 16;
+
+
+
+
+
+
+
+        // function selectSlot(i) {
+
+        //     selectedSlot = i;
+
+        //     // renderTimeSlots();
+
+        // }
+
+        // renderTimeSlots();
+
+        window.selectDay = selectDay;
+
+        // window.selectSlot = selectSlot;
+
+    </script>
+
+</body>
+
+
+
+</html>
+
