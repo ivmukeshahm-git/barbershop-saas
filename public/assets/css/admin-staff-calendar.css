@@ -1,0 +1,568 @@
+/* =========================================================
+   Admin Staff Day Calendar — multi-column resource view
+   ========================================================= */
+
+/* Force sidebar + calendar side-by-side (not stacked) */
+.app-calendar-wrapper > .bc-cal-layout,
+.app-calendar-wrapper > .row.bc-cal-layout {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  width: 100%;
+}
+
+.app-calendar-wrapper .app-calendar-sidebar {
+  position: static !important;
+  left: auto !important;
+  flex: 0 0 18.75rem !important;
+  width: 18.75rem !important;
+  max-width: 18.75rem !important;
+  min-width: 18.75rem !important;
+  height: auto !important;
+  overflow: visible !important;
+  z-index: 1;
+  background: #fff !important;
+}
+
+.app-calendar-wrapper .app-calendar-content {
+  position: relative;
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important; /* allow shrink so row doesn't wrap */
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.app-calendar-wrapper .app-calendar-content > .card {
+  min-width: 0;
+}
+
+.app-calendar-wrapper .app-calendar-content .card-body {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-width: 0;
+}
+
+@media (max-width: 991.98px) {
+  .app-calendar-wrapper > .bc-cal-layout {
+    flex-wrap: wrap !important;
+  }
+  .app-calendar-wrapper .app-calendar-sidebar {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #e8e8ec;
+  }
+  .app-calendar-wrapper .app-calendar-content {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+}
+
+.bc-staff-cal {
+  --bc-sc-hour-h: 72px;
+  --bc-sc-time-w: 72px;
+  --bc-sc-col-w: 180px;
+  --bc-sc-border: #e8e8ec;
+  --bc-sc-muted: #71717a;
+  --bc-sc-now: #ef4444;
+  --bc-sc-green: #136207;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.bc-staff-cal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--bc-sc-border);
+}
+
+.bc-staff-cal-toolbar .bc-sc-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bc-staff-cal-toolbar .bc-sc-title {
+  font-family: Poppins, Inter, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #000;
+  min-width: 160px;
+  text-align: center;
+}
+
+.bc-staff-cal-toolbar .btn {
+  border-radius: 10px !important;
+}
+
+.bc-sc-shell {
+  display: flex;
+  flex-direction: column;
+  max-height: min(72vh, 820px);
+  border: 1px solid var(--bc-sc-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bc-sc-header-scroll,
+.bc-sc-body-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.bc-sc-header-scroll {
+  flex-shrink: 0;
+  min-height: 92px;
+  background: #fff;
+  z-index: 5;
+}
+
+.bc-sc-body-scroll {
+  overflow-y: auto;
+  flex: 1;
+  position: relative;
+}
+
+.bc-sc-header-row,
+.bc-sc-body-row {
+  display: flex;
+  width: max(100%, calc(var(--bc-sc-time-w) + var(--bc-sc-col-w) * var(--bc-sc-cols, 1)));
+  min-width: 100%;
+  align-items: stretch;
+}
+
+.bc-sc-time-gutter {
+  width: var(--bc-sc-time-w);
+  min-width: var(--bc-sc-time-w);
+  max-width: var(--bc-sc-time-w);
+  flex-shrink: 0;
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  background: #fff;
+  border-right: 1px solid var(--bc-sc-border);
+}
+
+.bc-sc-header-row .bc-sc-time-gutter {
+  z-index: 6;
+  border-bottom: 1px solid var(--bc-sc-border);
+  min-height: 92px;
+  height: auto;
+}
+
+.bc-sc-staff-head {
+  width: var(--bc-sc-col-w);
+  min-width: var(--bc-sc-col-w);
+  flex: 0 0 var(--bc-sc-col-w);
+  border-right: 1px solid var(--bc-sc-border);
+  border-bottom: 1px solid var(--bc-sc-border);
+  min-height: 92px !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 10px 8px !important;
+  background: #fff !important;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  overflow: visible !important;
+  cursor: grab;
+  user-select: none;
+  transition: background .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.bc-sc-staff-head.is-drag-disabled {
+  cursor: default;
+}
+
+.bc-sc-staff-head .bc-sc-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 16px;
+  color: #9ca3af;
+  font-size: 16px;
+  line-height: 1;
+  margin-bottom: -2px;
+}
+
+.bc-sc-staff-head:hover .bc-sc-drag-handle {
+  color: #136207;
+}
+
+.bc-sc-staff-head.is-dragging {
+  opacity: 0.45;
+  cursor: grabbing;
+  background: #f0fdf4 !important;
+}
+
+.bc-sc-staff-head.is-drop-target {
+  box-shadow: inset 3px 0 0 #136207, inset -3px 0 0 #136207;
+  background: #ecfdf3 !important;
+}
+
+.bc-staff-cal.bc-sc-is-reordering .bc-sc-staff-head {
+  cursor: grabbing;
+}
+
+.bc-sc-staff-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid rgba(19, 98, 7, 0.28);
+  background: #f4f4f5;
+  display: block !important;
+  flex-shrink: 0 !important;
+}
+
+.bc-sc-staff-name {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  font-family: Poppins, Inter, system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+  text-align: center !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 16px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  -webkit-text-fill-color: #111111 !important;
+}
+
+.bc-sc-cols {
+  display: flex;
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bc-sc-col {
+  width: var(--bc-sc-col-w);
+  min-width: var(--bc-sc-col-w);
+  flex: 0 0 var(--bc-sc-col-w);
+  border-right: 1px solid #b5afaf;
+  position: relative;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.bc-sc-cols-var {
+  position: relative;
+}
+
+.bc-sc-cols-var .bc-sc-hour-lines {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+  flex: 0 0 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.bc-sc-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #b5afaf;
+}
+
+.bc-sc-hour-line.is-half {
+  background: #b5afaf;
+}
+
+.bc-sc-time-labels {
+  position: relative;
+  background: #fff;
+}
+
+.bc-sc-time-label {
+  height: var(--bc-sc-hour-h);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.bc-sc-time-label span {
+  position: absolute;
+  top: -0.55rem;
+  right: 8px;
+  text-align: right;
+  line-height: 1.1;
+}
+
+.bc-sc-time-label .h {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.bc-sc-time-label .p {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--bc-sc-muted);
+  text-transform: lowercase;
+}
+
+/* First label would be clipped above the scroll edge — keep it inside its row */
+.bc-sc-time-labels .bc-sc-time-label:first-child span {
+  top: 2px;
+}
+
+/* End-cap label (shop close time) sits on the bottom gridline */
+.bc-sc-time-label.bc-sc-time-label-end {
+  position: relative;
+  height: 0 !important;
+  overflow: visible;
+}
+
+.bc-sc-time-label.bc-sc-time-label-end span {
+  top: auto;
+  bottom: 2px;
+}
+
+.bc-sc-event {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 10px;
+  padding: 6px 8px;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 2;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  box-sizing: border-box;
+}
+
+.bc-sc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+
+.bc-sc-event.is-appt {
+  background: #e8f0fe;
+  border-color: rgba(37, 99, 235, 0.28);
+  color: #1e3a8a;
+}
+
+.bc-sc-event.is-appt .n {
+  color: #1e3a8a;
+}
+
+.bc-sc-event.is-appt .sv {
+  color: #2563eb;
+}
+
+.bc-sc-event.is-break {
+  background: #f4f4f5;
+  border-color: #d4d4d8;
+  color: #3f3f46;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(0, 0, 0, 0.04) 6px,
+    rgba(0, 0, 0, 0.04) 12px
+  );
+}
+
+.bc-sc-event .t {
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.bc-sc-event .n {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #0a3d04;
+  white-space: normal;
+  overflow: hidden;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.bc-sc-event .sv {
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
+  color: #136207;
+  opacity: 0.95;
+}
+
+.bc-sc-event .s {
+  font-size: 0.62rem;
+  opacity: 0.8;
+  white-space: normal;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.bc-sc-now {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.bc-sc-now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--bc-sc-now);
+}
+
+.bc-sc-now-badge {
+  position: absolute;
+  left: calc(-1 * var(--bc-sc-time-w) + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  color: var(--bc-sc-now);
+  border: 1.5px solid var(--bc-sc-now);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  white-space: nowrap;
+  z-index: 7;
+}
+
+.bc-sc-empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--bc-sc-muted);
+}
+
+@media (max-width: 767.98px) {
+  .bc-staff-cal {
+    --bc-sc-col-w: 150px;
+    --bc-sc-hour-h: 64px;
+    --bc-sc-time-w: 58px;
+  }
+}
+
+/* Staff availability overlays */
+.bc-sc-avail-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bc-sc-avail-available {
+  background-color: rgba(76, 175, 80, 0.18);
+}
+
+/* Available 30-minute slot boxes with time + label */
+.bc-sc-avail-slot {
+  background-color: rgba(76, 175, 80, 0.16);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  overflow: hidden;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bc-sc-avail-slot .bc-sc-avail-slot-time {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #136207;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.bc-sc-avail-slot .bc-sc-avail-slot-text {
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #136207;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.bc-sc-avail-break {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+/* Not-available blocks: solid white so grid borders are hidden, with label */
+.bc-sc-avail-unavailable {
+  background: #fff;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bc-sc-avail-unavailable span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #8a8585;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  padding: 0 4px;
+}

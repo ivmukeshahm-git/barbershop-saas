@@ -1,0 +1,45 @@
+/**
+ * Loaded AFTER jquery.dataTables.min.css so active page text stays white.
+ * Applies to every DataTable in the admin panel.
+ */
+
+div.dataTables_wrapper div.dataTables_paginate a.paginate_button.current,
+div.dataTables_wrapper div.dataTables_paginate a.paginate_button.current:hover,
+div.dataTables_wrapper div.dataTables_paginate a.paginate_button.current:active,
+div.dataTables_wrapper div.dataTables_paginate a.paginate_button.current:focus,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:active,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:focus,
+table.dataTable ~ .dataTables_paginate .paginate_button.current,
+table.dataTable ~ .dataTables_info ~ .dataTables_paginate .paginate_button.current {
+  background: linear-gradient(135deg, var(--shop-theme, #2D5BFF) 0%, #000000 100%) !important;
+  background-color: var(--shop-theme, #2D5BFF) !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(19, 98, 7, 0.3) !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Bootstrap 5 DataTables pagination variant */
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li.page-item.active > a.page-link,
+div.dataTables_wrapper div.dataTables_paginate ul.pagination li.page-item.active > span.page-link,
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link,
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link:hover,
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link:focus {
+  background: linear-gradient(135deg, var(--shop-theme, #2D5BFF) 0%, #000000 100%) !important;
+  background-color: var(--shop-theme, #2D5BFF) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(19, 98, 7, 0.3) !important;
+  z-index: 1;
+}
+
+/* Ensure nested text/spans inside active page also stay white */
+div.dataTables_wrapper div.dataTables_paginate a.paginate_button.current *,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current *,
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link * {
+  color: #ffffff !important;
+}

@@ -1,0 +1,1113 @@
+/*
+  Template Name:Bevan - Barber Salon  Bootstrap 4 Template.
+  Theme URL:bevan.themepul.com/
+  Author: Themepul
+  Author URI: http://themepul.com
+  tag:career, barber, barber salon, beauty, hair, hair salon, haircut, hairdresser, makeup, manicure, massage, nail, tattoo, shop, ecommerce,
+  Version: 1.0
+*/
+
+@media (min-width:320px) and (max-width:400px) {
+    .service-content p {
+        padding: 5px 0;
+        height: 50px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+    .service-content h2 {
+        font-weight: bold;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+    .service-single .btn.btn-button.no-bg {
+        padding: 7px 19px;
+    }
+    .service-icon {
+        margin: 9px auto;
+        padding: 8px;
+    }
+    .service-content-inner {
+        height: 200px;
+    }
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 19px;
+        padding: 13px 0;
+        margin: 20px auto;
+    }
+    .inner-hadding-box h2 {
+        font-size: 32px;
+    }
+    .product-single {
+        margin-bottom: 30px;
+    }
+    .pb-30 .product-single {
+        margin-bottom: 0;
+    }
+    .procing-table-section2.pricing-page .pb-30 {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .box-width a.popUp {
+        font-size: 13px;
+        margin: 5px;
+    }
+    .banner-single .button {
+        margin-bottom: 15px;
+    }
+    .blog-page-2 aside.col-xl-9 {
+        margin-top: 50px;
+    }
+    .paginations.pt-5 {
+        padding-top: 17px !important;
+    }
+    .slider-content a.btn.btn-button {
+        padding: 7px 19px;
+    }
+    .banner-single .button a {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width:320px) and (max-width:480px) {
+    .faq-page .faq-items h4.panel-title a:before,
+    .faq-page .faq-items h4.panel-title a:after {
+        display: none
+    }
+}
+
+@media (min-width:401px) and (max-width:580px) {
+    .service-content p {
+        padding: 9px 0;
+        height: 50px;
+        overflow: hidden;
+        margin-bottom: 17px;
+    }
+    .service-content h2 {
+        font-weight: bold;
+        font-size: 21px;
+        text-transform: uppercase;
+    }
+    .service-content-inner {
+        height: 216px;
+    }
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 19px;
+        padding: 13px 0;
+        margin: 20px auto;
+    }
+    .carousel-inner.slider-inner .carousel-indicators {
+        display: none;
+    }
+    .banner-single .button a {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width:320px) and (max-width:568px) {
+    /*** header ***/
+    .col-100 {
+        width: 100%;
+        text-align: center;
+        display: block !important;
+        margin-top: 5px;
+    }
+    .c-center {
+        text-align: center;
+        margin: 0 auto;
+    }
+    .c-hidden {
+        display: none !important;
+    }
+    .top-login ul li {
+        margin-right: 7px;
+    }
+    .header-minicart-area .shopping-cart {
+        width: auto;
+        left: 0;
+        right: 0;
+    }
+    .header-mini-cart {
+        text-align: right;
+    }
+    .shopping-cart-header span.badge {
+        position: absolute;
+        left: 23px;
+        top: 0;
+    }
+    .header-minicart-area .shopping-cart .shopping-cart-header {
+        overflow: hidden;
+        padding-top: 0px;
+    }
+    .slider-contents {
+        top: 40%
+    }
+    .slider-content h1 {
+        font-size: 29px;
+        margin-bottom: 0;
+    }
+    .slider-content p {
+        display: none
+    }
+    .banner-img {
+        margin: 0 auto;
+    }
+    .banner-single {
+        padding-right: 0;
+        padding-left: 0;
+        text-align: center;
+    }
+    .home-banner-bg {
+        display: none;
+    }
+    .carousel-indicators.carousel-with-img {
+        bottom: -9px;
+        left: 0;
+    }
+    .banner-single > h2 {
+        font-size: 34px;
+        line-height: 42px;
+    }
+    .banner-single {
+        padding-top: 5%;
+        padding-bottom: 22%;
+    }
+    a.popUp {
+        margin: 20px 4px;
+    }
+    .single-pricing {
+        margin-top: 30px;
+    }
+    .single-blog {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .ft-widget {
+        margin-top: 30px;
+    }
+    .pricing-img img {
+        width: 100%;
+    }
+    .p-button {
+        top: 50%;
+    }
+    .testi-img {
+        margin-bottom: 10px;
+        float: none;
+        margin-right: 0px;
+        text-align: center;
+        width: 70px;
+        margin: 0 auto;
+        display: block;
+        height: 70px;
+    }
+    .testi-content {
+        float: none;
+        text-align: center;
+    }
+    .header-search-2 {
+        display: none;
+    }
+    .team-single-2 {
+        margin-bottom: 30px;
+    }
+    .procing-table-section2 .pricing-header {
+        padding: 28px;
+        padding-bottom: 16px;
+        padding-top: 34px;
+    }
+    .procing-table-section2 .pricing-title h2 {
+        top: -3px;
+        margin-bottom: 0;
+    }
+    .single-blog-2 {
+        margin: 15px 0;
+    }
+    .ft-twitter-icon {
+        height: 49px;
+    }
+    .footer-menu {
+        margin-bottom: 20px;
+    }
+    .header-cart-3 {
+        display: none;
+    }
+    .service-content {
+        margin: 0 auto;
+        padding: 0;
+    }
+    .service-content > h2 {
+        font-size: 21px;
+    }
+    .service-content > p {
+        padding: 0;
+        height: 72px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+    .service-icon {
+        margin: 9px auto;
+    }
+    .pricing-table-list ul li {
+        display: block;
+        margin: 10px;
+        padding-left: 0;
+        text-align: center;
+    }
+    .pricing-bg {
+        min-width: auto;
+        text-align: center;
+    }
+    li.table-price {
+        min-width: auto;
+        text-align: center;
+        float: none;
+        margin-left: 0px !important;
+    }
+    .team-single {
+        padding-bottom: 29px;
+    }
+    .testi-titls {
+        text-align: center;
+    }
+    .footer-newsletter > p {
+        padding: 3px 0;
+    }
+    .box-width {
+        padding: 25px;
+    }
+    .box-width ul.blog-meta li a {
+        color: #383535;
+        margin-right: 4px;
+    }
+    /*** full width banner ***/
+    .full-withcon p {
+        display: none;
+    }
+    .full-withcon {
+        padding-right: 0;
+        padding-left: 0;
+        text-align: center;
+        width: 100%;
+        padding: 24px 20px;
+    }
+    .full-withcon h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    .product-filter-list .nav a {
+        width: 27px;
+        height: 27px;
+        padding: 2px;
+        margin: 0 3px;
+        font-size: 12px;
+    }
+    .owl-dot {
+        width: 8px;
+    }
+    .full-withcon .btn.btn-button.no-bg {
+        padding: 8px 22px;
+        margin-top: 7px;
+    }
+    /*** shop page ***/
+    .pro-pagination {
+        display: none !important;
+    }
+    .product-filter-list select {
+        padding: 5px 2px;
+        margin: 0px;
+    }
+    .product-list-box .product-single .pro-thum {
+        max-width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
+    .pro-thum .product-signle-top {
+        border-bottom: 1px solid #e4e4e4;
+        border-right: none;
+    }
+    .product-details {
+        padding: 23px 18px;
+        padding-right: 10px;
+    }
+    .right-sides {
+        text-align: right;
+        display: block !important;
+    }
+    /**** single product ***/
+    .single-product-details {
+        margin-top: 40px;
+    }
+    .single-product-details h2 {
+        font-size: 23px;
+        line-height: 35px;
+    }
+    .single-product-tab {
+        padding: 31px 17px;
+    }
+    .single-product-tab ul li a {
+        padding: 8px 10px;
+        font-size: 12px;
+        margin: 0 3px;
+    }
+    .team-single-info h2 {
+        margin-top: 20px;
+    }
+    .procing-table-section2.pricing-page .single-pricing,
+    .pricing-page .single-blog-2 {
+        margin-bottom: 30px;
+    }
+    .pricing-page .pb-30 {
+        padding-bottom: 0;
+    }
+    .procing-table-section2 .pricing-body {
+        text-align: center;
+    }
+    .locator-list h3 {
+        margin-top: 30px;
+    }
+    .coming-bg {
+        padding: 18% 0;
+    }
+    .syotimer-cell__value {
+        font-size: 34px;
+    }
+    .syotimer-cell {
+        margin: 0 7px;
+    }
+    .coning-content h1 {
+        font-size: 41px;
+        padding: 1px;
+        padding-bottom: 30px;
+        padding-top: 31px;
+    }
+    .paginations.pt-5 {
+        padding-top: 17px !important;
+    }
+    .error-page.coning-content h1 {
+        font-size: 94px;
+        padding-bottom: 0px;
+        padding-top: 0;
+    }
+    .coning-content h2 span {
+        font-size: 21px;
+    }
+    .subscrib > a {
+        display: inline-block;
+        margin-top: 16px;
+    }
+    .contact-widget {
+        margin-top: 30px;
+    }
+    .top-login {
+        margin-top: 10px;
+    }
+    .blog-page-2 aside.col-xl-9 {
+        margin-top: 50px;
+    }
+    .footer-menu ul li a {
+        margin-right: 9px;
+    }
+    .service-d-img {
+        margin-top: 30px;
+    }
+    ul.portfolio-menu {
+        border: none;
+        border-radius: 100px;
+    }
+    ul.portfolio-menu li {
+        display: inline-block;
+        padding: 9px 11px;
+        font-size: 17px;
+        border-bottom: 1px solid #dedede;
+    }
+    .blog-d-dec h2 {
+        padding-right: 0;
+    }
+    .cart-page-btn {
+        text-align: center;
+    }
+    .cart-page-btn .pull-left,
+    .cart-page-btn .pull-right {
+        width: 100%;
+        margin-top: 18px;
+    }
+    li.single-comment {
+        margin: 28px;
+    }
+    ol.comment-list-reply {
+        margin-left: 8px;
+    }
+    .Inner-page .pb-30 .team-single-2 {
+        margin-bottom: 0;
+    }
+    .subscrib input {
+        min-width: 100%;
+    }
+    .coning-content h2 span {
+        border-top: none;
+    }
+}
+
+@media (min-width:320px) and (max-width:575px) {
+    .blog-page-2 aside.col-xl-9 {
+        margin-top: 50px;
+    }
+}
+
+@media (min-width:320px) and (max-width:620px) {
+    .procing-table-section2 .pricing-header {
+        background-position: bottom;
+        padding-bottom: 35px;
+    }
+}
+
+@media (min-width:360px) and (max-width:640px) {
+    .p-button {
+        height: 91px;
+    }
+}
+
+@media (min-width:480px) and (max-width:767px) {
+    .team-section2 > div.container > .row > .col-12 {
+        max-width: 50%;
+        padding-bottom: 30px
+    }
+    .Inner-page .pb-30 .team-single-2 {
+        margin-bottom: 0;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12.pb-30 {
+        padding-bottom: 30px;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12 {
+        padding-bottom: 0;
+    }
+}
+
+@media (min-width:490px) and (max-width:767px) {
+    .procing-table-section2 > div > .row > .col-12,
+    .lstest-blog-section > div > .row > .col-12,
+    .trincing-table-section > div.container > .row > .col-12 {
+        max-width: 50%;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12.pb-30 {
+        padding-bottom: 30px;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12 {
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width:991px) {
+    span.navbar-toggler-icon:after {
+        content: "\f039";
+        font-family: fontawesome;
+        cursor: pointer;
+        /* color: #fff; */
+    }
+    .btco-hover-menu {
+        background: none;
+        margin: 0;
+        padding: 0;
+        min-height: 10px;
+    }
+    .mobile-menu {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 40px 0;
+        display: block;
+    }
+    .logo {
+        padding: 0px;
+        margin: 0;
+    }
+    .box-menu {
+        position: relative;
+        padding: 2px 0;
+        padding-top: 6px;
+    }
+    .header-menu {
+        display: block;
+    }
+    .service-content {
+        margin: 0 auto;
+    }
+    .service-content > h2 {
+        font-size: 21px;
+    }
+    .service-content > p {
+        padding: 0;
+        height: 72px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+    .service-icon {
+        margin: 9px auto;
+    }
+    .pricing-table-list ul li {
+        display: block;
+        margin: 10px;
+        padding-left: 0;
+        text-align: center;
+    }
+    .pricing-bg {
+        min-width: auto;
+        text-align: center;
+    }
+    li.table-price {
+        min-width: auto;
+        text-align: center;
+        float: none;
+        margin-left: 0px !important;
+    }
+    .procing-table-section2.pricing-page .single-pricing,
+    .pricing-page .single-blog-2 {
+        margin-bottom: 0;
+    }
+    .pricing-page .pb-30 {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .procing-table-section2 .pricing-header {
+        background-position: bottom;
+    }
+    .team-single-2 {
+        margin-bottom: 30px;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12 {
+        padding-bottom: 0;
+    }
+    .Inner-page .pb-30 .single-blog {
+        margin-bottom: 0;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12.pb-30 {
+        padding-bottom: 30px;
+    }
+    .paginations.pt-5 {
+        padding-top: 17px !important;
+    }
+}
+
+@media (min-width:558px) and (max-width:767px) {
+    .slider-content h1 {
+        font-size: 50px;
+        padding-bottom: 13px;
+        margin-bottom: 0;
+    }
+    .slider-content p {
+        margin-bottom: 0;
+        height: 47px;
+        overflow: hidden;
+        margin-bottom: 18px;
+    }
+    .carousel-indicators {
+        bottom: 6%;
+    }
+    .banner-img {
+        margin: 0 auto;
+    }
+    .banner-single {
+        padding-right: 0;
+        padding-left: 0;
+        text-align: center;
+    }
+    .carousel-indicators.carousel-with-img {
+        bottom: -8px;
+        left: 0;
+    }
+    .h-search {
+        display: none !important;
+    }
+    .home-banner-bg {
+        display: none;
+    }
+    .pricing-title h2 {
+        font-size: 18px;
+    }
+    .single-pricing {
+        margin-top: 30px;
+    }
+    .testi-img {
+        float: none;
+        margin-right: 0;
+        margin: 0 auto;
+    }
+    .testi-content p {
+        text-align: center;
+    }
+    .single-blog {
+        margin-bottom: 30px;
+    }
+    .ft-widget {
+        margin-top: 30px;
+    }
+    .footer-menu.c-center {
+        text-align: center;
+        margin: 0 auto;
+    }
+    .copyright.c-center {
+        margin: 0 auto;
+    }
+    .twitter-meta ul li {
+        margin: 0px 3px;
+    }
+    .header-search-2 {
+        display: none;
+    }
+    .procing-table-section2 .pricing-header {
+        padding: 26px 14px;
+        padding-bottom: 45px;
+        margin-bottom: 40px;
+        padding-top: 29px;
+    }
+    .testi-titls {
+        text-align: center;
+    }
+    .procing-table-section2 .pricing-header {
+        background-position: bottom;
+    }
+    .procing-table-section2 .single-pricing,
+    .single-blog-2 {
+        margin-bottom: 30px;
+    }
+    .ft-twitter-icon {
+        height: 65px;
+    }
+    ul.blog-meta li a {
+        color: #808080;
+        margin-right: 9px;
+    }
+    .single-blog {
+        margin-bottom: 30px;
+    }
+    .box-width {
+        padding: 40px;
+    }
+    .single-product-details {
+        margin-top: 40px;
+    }
+    .procing-table-section2.pricing-page .single-pricing,
+    .pricing-page .single-blog-2 {
+        margin-bottom: 30px;
+    }
+    .contact-widget {
+        margin-top: 30px;
+    }
+    .header-mini-cart {
+        text-align: right;
+    }
+    .shopping-cart-header span.badge {
+        position: absolute;
+        left: 22px;
+    }
+    .syotimer-cell {
+        margin: 0 13px;
+    }
+    .syotimer-cell__value {
+        font-size: 43px;
+    }
+    .Inner-page .pb-30 .team-single-2 {
+        margin-bottom: 0;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12.pb-30 {
+        padding-bottom: 30px;
+    }
+    .Inner-page .team-section2 > div.container > .row > .col-12 {
+        padding-bottom: 0;
+    }
+}
+
+@media (min-width:576px) and (max-width:766px) {
+    .paginations {
+        display: inline-block;
+        width: 100%;
+    }
+}
+
+@media (min-width:569px) and (max-width:767px) {
+    /*** full width banner ***/
+    .full-withcon p {
+        display: none;
+    }
+    .full-withcon {
+        padding-right: 14%;
+    }
+    .full-withcon h2 {
+        font-size: 22px;
+    }
+    .full-withcon .btn.btn-button.no-bg {
+        padding: 3px 22px;
+        margin-top: 14px;
+    }
+    /*** shop page ***/
+    .pro-pagination {
+        display: none !important;
+    }
+    .product-filter-list select {
+        padding: 5px 2px;
+        margin: 0px;
+    }
+    .product-list-box .product-single .pro-thum {
+        max-width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
+    .pro-thum .product-signle-top {
+        border-bottom: 1px solid #e4e4e4;
+        border-right: none;
+    }
+    .product-details {
+        padding: 23px 18px;
+        padding-right: 10px;
+    }
+    .right-sides {
+        text-align: right;
+        display: block !important;
+    }
+    .single-product-details {
+        margin-top: 40px;
+    }
+    .procing-table-section2.pricing-page .single-pricing,
+    .pricing-page .single-blog-2 {
+        margin-bottom: 30px;
+    }
+    .team-single-info h2 {
+        margin-top: 18px;
+    }
+    .coning-content h1 {
+        font-size: 72px;
+    }
+    .paginations.pt-5 {
+        padding-top: 17px !important;
+    }
+}
+
+@media (min-width:768px) and (max-width: 991px) {
+    .col-xl-3.col-lg-3.logos {
+        float: left;
+        width: 145px;
+    }
+    .col-xl-9.col-lg-9.menus {
+        width: auto;
+    }
+    .mobile-menu {
+        display: none;
+    }
+    .btco-hover-menu a,
+    .navbar > li > a {
+        padding: 19px 8px;
+        font-size: 16px;
+    }
+    footer.footer-section {
+        padding-top: 40px;
+    }
+    .box-width .slider-content h1 {
+        font-size: 55px;
+        line-height: 47px;
+        margin-bottom: 10px;
+    }
+    .box-width .btco-hover-menu a,
+    .navbar > li > a {
+        padding: 19px 7px;
+        font-size: 15px;
+    }
+    .navbar-expand-md .navbar-nav .dropdown-menu {
+        position: absolute;
+        left: auto;
+    }
+    .d-sm-none {
+        display: block!important;
+    }
+    .banner-single {
+        padding-right: 0;
+        padding-bottom: 20%;
+        padding-left: 8%;
+    }
+    .carousel-indicators.carousel-with-img {
+        bottom: 0;
+        left: 17%;
+    }
+    .slider-content p {
+        margin-bottom: 19px;
+    }
+    .slider-section .carousel-indicators {
+        bottom: 5%;
+    }
+    .pricing-title h2 {
+        font-size: 20px;
+    }
+    .box-width .pricing-title h2 {
+        font-size: 18px;
+    }
+    .p-button {
+        position: absolute;
+        top: 40%;
+    }
+    .home-banner-bg {
+        display: none
+    }
+    .ft-widget {
+        margin-top: 30px;
+    }
+    .service-content p {
+        padding: 9px 0;
+        height: 55px;
+        overflow: hidden;
+        margin-bottom: 11px;
+    }
+    .service-content h2 {
+        font-weight: bold;
+        font-size: 21px;
+        text-transform: uppercase;
+    }
+    .service-content-inner {
+        height: auto;
+    }
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 19px;
+        padding: 13px 0;
+        margin: 10px auto;
+    }
+    .service-content {
+        margin: 0 auto;
+        padding: 5px 17px;
+    }
+    .service-items {
+        margin-bottom: 15px;
+    }
+    .single-blog {
+        margin-bottom: 30px;
+    }
+    .box-width {
+        padding: 28px;
+    }
+    /*** full width banner ***/
+    .full-withcon {
+        padding-right: 10%;
+    }
+    .full-withcon p {
+        display: none
+    }
+    .full-withcon h2 {
+        padding-bottom: 5px;
+        margin-bottom: 21px;
+    }
+    /*** shop page ***/
+    .product-filter-list select {
+        padding: 10px 4px;
+    }
+    aside .right-sides {
+        text-align: right;
+        display: block !important;
+    }
+    aside .pro-pagination {
+        display: none !important;
+    }
+    aside .product-list-box .product-single {
+        display: block !important;
+    }
+    aside .product-list-box .product-single .pro-thum {
+        max-width: 100%;
+        margin-right: 0;
+    }
+    aside .pro-thum .product-signle-top {
+        border-bottom: 1px solid #e4e4e4;
+        border-right: none;
+    }
+    aside .product-details {
+        padding: 13px 20px;
+    }
+    .blog-page-2 aside ul.blog-meta li a {
+        margin-right: 5px;
+        font-size: 12px;
+    }
+    .single-product-details {
+        margin-top: 40px;
+    }
+    .single-product-tab {
+        padding: 31px 17px;
+    }
+    .widget-slide .img,
+    .widget-recent-post .img {
+        padding: 0px;
+        width: 50px;
+        margin-right: 11px;
+    }
+    .procing-table-section2.pricing-page .single-pricing {
+        margin-bottom: 30px;
+    }
+    .pricing-page .pb-30 {
+        padding-bottom: 0;
+    }
+    .pricing-page .trincing-table-section .single-pricing {
+        margin-bottom: 30px;
+    }
+    .slider-content p {
+        margin-bottom: 10px;
+    }
+    .carousel-indicators {
+        bottom: 5%;
+    }
+    .procing-table-section2 .single-pricing {
+        margin-bottom: 30px;
+    }
+    .header-search-2 {
+        display: none;
+    }
+    .single-blog-2 {
+        margin-bottom: 30px;
+        min-height: 312px;
+    }
+    button.button.filter {
+        color: #fff;
+        padding: 5px 9px;
+        border-radius: 5px;
+    }
+    .priceslider input {
+        width: 47px;
+        padding: 5px 0;
+        margin: 5px 3px;
+    }
+    .coning-content h1 {
+        font-size: 76px;
+    }
+    ul.blog-meta li a {
+        font-size: 13px;
+        margin-right: 3px;
+    }
+    .banner-single > h2 {
+        font-size: 50px;
+    }
+    .btco-hover-menu ul li ul li ul {
+        left: -10rem !important;
+    }
+    .about-segnature.pt-4.-b-3 {
+        margin-bottom: 20px;
+    }
+}
+
+@media (min-width:992px) and (max-width:1199px) {
+    .service-content {
+        padding: 0px 16px;
+    }
+    .service-icon {
+        margin: 13px auto;
+    }
+    .service-content > p {
+        padding: 10px 0;
+        padding-top: 4px;
+    }
+    .pricing-table-list ul li {
+        display: block;
+        margin: 10px;
+        padding-left: 0;
+        text-align: center;
+    }
+    .pricing-bg {
+        min-width: auto;
+        text-align: center;
+    }
+    li.table-price {
+        min-width: auto;
+        text-align: center;
+        float: none;
+        margin-left: 0px !important;
+    }
+    .box-width {
+        padding: 50px;
+    }
+    .blog-page-2 aside ul.blog-meta li a {
+        margin-right: 5px;
+        font-size: 12px;
+    }
+    .btco-hover-menu ul li ul li ul {
+        left: -10rem !important;
+    }
+}
+
+@media (min-width:1024px) and (max-width:1224px) {
+    .team-section2 .hadding-section.pt-80.pb-50 {
+        padding-top: 40px;
+    }
+    .banner-img img {
+        height: auto;
+    }
+    .twitter-meta ul li {
+        margin: 0px -1px;
+    }
+    .social-box ul li a {
+        margin-right: 3px;
+    }
+    .slider-content h1 {
+        font-size: 60px;
+        line-height: 19px;
+        margin-bottom: 32px;
+    }
+    .slider-content p {
+        margin-bottom: 14px;
+    }
+    .btco-hover-menu a,
+    .navbar > li > a {
+        padding: 19px 10px;
+    }
+    .service-content h2 {
+        font-size: 25px;
+    }
+    .service-content-inner {
+        height: 292px;
+        padding: 0px 25px;
+    }
+    .service-content p {
+        padding: 9px 0;
+    }
+    .full-withcon p {
+        margin: 7px 0px;
+        padding-bottom: 6px;
+        padding-right: 0;
+    }
+    .team-section .hadding-section.pt-80 {
+        padding-top: 40px;
+    }
+    .procing-table-section2 .pricing-price {
+        font-size: 40px;
+    }
+    .btco-hover-menu ul li ul li ul {
+        left: -12rem !important;
+    }
+    .btco-hover-menu ul li ul li ul {
+        left: -10rem !important;
+    }
+    .single-dec-top-side h2 {
+        font-size: 18px;
+    }
+    input#quantity {
+        width: 43px;
+    }
+    .widget-slide-content {
+        float: left;
+        width: 60%;
+    }
+    .priceslider input {
+        width: 49px;
+    }
+    button.button.filter {
+        padding: 5px 10px;
+    }
+    .widget-title {
+        font-size: 16px;
+    }
+}
+
+@media (min-width:1300px) and (max-width:1500px) {
+    .btco-hover-menu ul li ul li ul {
+        left: -10rem !important;
+    }
+}

@@ -18,5 +18,5 @@ yarn-error.log
 /.vscode
 /.git/
 *.zip
-/public
+
 /backup

@@ -1,0 +1,1 @@
+[18-Sep-2025 05:00:22 America/Edmonton] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\StaffController::DailyEarningGetTableData() in /home/iukybgce/public_html/app/Http/Controllers/Admin/StaffController.php on line 163

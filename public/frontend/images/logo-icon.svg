@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="Blue Crown Barbers">
+  <defs>
+    <linearGradient id="bcbGrad" x1="20" y1="12" x2="108" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#136207"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <!-- Soft ring -->
+  <circle cx="64" cy="64" r="58" stroke="url(#bcbGrad)" stroke-width="2.5" opacity="0.25"/>
+  <!-- Crown -->
+  <path d="M34 48 L44 62 L64 40 L84 62 L94 48 L88 72 H40 Z" fill="url(#bcbGrad)"/>
+  <circle cx="34" cy="46" r="4" fill="#000000"/>
+  <circle cx="64" cy="38" r="4.5" fill="#000000"/>
+  <circle cx="94" cy="46" r="4" fill="#000000"/>
+  <rect x="40" y="72" width="48" height="6" rx="2" fill="#0F172A"/>
+  <!-- Crossed scissors -->
+  <g transform="translate(64,92)">
+    <path d="M-22 4 L-3 -20 L2 -16.5 L-14 10 Z" fill="#136207"/>
+    <path d="M22 4 L3 -20 L-2 -16.5 L14 10 Z" fill="#136207"/>
+    <circle cx="-24" cy="12" r="8" stroke="#0F172A" stroke-width="3" fill="none"/>
+    <circle cx="24" cy="12" r="8" stroke="#0F172A" stroke-width="3" fill="none"/>
+    <circle cx="0" cy="-14" r="3" fill="#0F172A"/>
+  </g>
+</svg>

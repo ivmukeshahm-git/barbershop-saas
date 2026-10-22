@@ -1,0 +1,162 @@
+/* Branding interactions — logo, nav, scroll, images, counters */
+/* Appended after luxury.css base */
+
+/* ---------- Logo ---------- */
+.lx-logo {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lx-logo-img,
+.lx-logo img {
+  height: 60px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  display: block;
+  transform-origin: left center;
+  transition: transform .4s ease, filter .35s ease;
+  animation: lxLogoFloat 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.lx-header.scrolled .lx-logo-img,
+.lx-header.solid .lx-logo-img {
+  transform: scale(0.9);
+}
+
+.lx-logo:hover .lx-logo-img {
+  transform: scale(1.08) rotate(2deg);
+  filter: drop-shadow(0 8px 18px rgba(19, 98, 7, 0.35));
+}
+
+.lx-header.scrolled .lx-logo:hover .lx-logo-img,
+.lx-header.solid .lx-logo:hover .lx-logo-img {
+  transform: scale(0.97) rotate(2deg);
+}
+
+@keyframes lxLogoIn {
+  from { opacity: 0; transform: translateX(-28px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes lxLogoFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
+}
+
+@media (max-width: 991.98px) {
+  .lx-logo-img,
+  .lx-logo img {
+    height: 40px;
+    width: 40px;
+    max-width: 40px;
+  }
+}
+
+/* ---------- Header sticky / scroll ---------- */
+.lx-header {
+  transition: all .4s ease !important;
+}
+
+.lx-header.scrolled {
+  background: rgba(255,255,255,0.96) !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  padding: 8px 0 !important;
+}
+
+/* On transparent hero: prefer white logo readability via data swap in JS */
+
+/* ---------- Nav underline ---------- */
+.lx-nav .nav-link {
+  position: relative;
+  transition: color .3s ease;
+}
+
+.lx-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--lx-blue);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .35s ease;
+}
+
+.lx-nav .nav-link:hover::after,
+.lx-nav .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.lx-header:not(.scrolled):not(.solid) .lx-nav .nav-link::after {
+  background: #fff;
+}
+
+/* ---------- Book button lift ---------- */
+.lx-book-btn,
+.btn-lx-primary {
+  transition: transform .35s ease, box-shadow .35s ease, background .35s ease !important;
+}
+
+.lx-book-btn:hover,
+.btn-lx-primary:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(19, 98, 7, 0.45) !important;
+}
+
+/* ---------- Image hover polish ---------- */
+.lx-card img,
+.lx-service-card .svc-img img,
+.lx-barber-card .barber-img img,
+.lx-gallery-item img,
+.lx-collage img,
+.lx-hero-visual .main-img,
+.about-img img,
+.experience-image img {
+  transition: transform .5s ease, box-shadow .4s ease, filter .4s ease;
+  border-radius: var(--lx-radius);
+}
+
+.lx-card:hover img,
+.lx-service-card:hover .svc-img img,
+.lx-barber-card:hover .barber-img img,
+.lx-gallery-item:hover img,
+.lx-collage:hover .img-main {
+  transform: scale(1.06);
+}
+
+.lx-card:hover,
+.lx-gallery-item:hover {
+  box-shadow: var(--lx-shadow-lg);
+}
+
+/* Footer logo clean */
+.lx-footer .logo-foot img {
+  height: 58px;
+  width: 58px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 6px;
+  object-fit: contain;
+  box-shadow: 0 8px 20px rgba(58, 30, 10, .25);
+}
+
+/* Count-up numbers */
+.lx-counters .counter-item strong {
+  font-variant-numeric: tabular-nums;
+}

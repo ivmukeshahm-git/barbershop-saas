@@ -1,0 +1,360 @@
+/* Track Your Booking — Blue Crown Barbers */
+.tb-page {
+  --tb-primary: #8c4e24;
+  --tb-primary-dark: #5a3518;
+  /* theme: copper #8c4e24 + gold #c4a265 */
+  --tb-grad: linear-gradient(135deg, #8c4e24 0%, #c4a265 100%);
+  --tb-bg: #f6f1ea;
+  --tb-text: #1a120c;
+  --tb-muted: #6b5c50;
+  --tb-border: rgba(26, 18, 12, 0.1);
+  --tb-success: #16A34A;
+  --tb-warning: #F59E0B;
+  --tb-danger: #EF4444;
+  --tb-purple: #7C3AED;
+  background: var(--tb-bg);
+  color: var(--tb-text);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.tb-hero {
+  position: relative;
+  padding: 4.5rem 0 3rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(196, 162, 101, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(140, 78, 36, 0.16), transparent 50%),
+    linear-gradient(180deg, #fbf7f2 0%, #f6f1ea 100%);
+  overflow: hidden;
+}
+
+.tb-hero h1 {
+  font-family: Poppins, Inter, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  margin-bottom: 0.75rem;
+  color: var(--tb-text);
+}
+
+.tb-hero .lead {
+  color: var(--tb-muted);
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+.tb-search-card,
+.tb-card {
+  background: #fff;
+  border: 1px solid var(--tb-border);
+  border-radius: 18px;
+  box-shadow: 0 10px 36px rgba(15, 23, 42, 0.06);
+}
+
+.tb-search-card {
+  max-width: 640px;
+  margin: -2rem auto 3rem;
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem;
+}
+
+.tb-search-card label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.tb-search-card .form-control {
+  min-height: 52px;
+  border-radius: 12px;
+  border: 1px solid var(--tb-border);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tb-search-card .form-control:focus {
+  border-color: var(--tb-primary);
+  box-shadow: 0 0 0 3px rgba(140, 78, 36, 0.15);
+}
+
+.tb-btn-primary {
+  background: var(--tb-grad);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  min-height: 52px;
+  padding: 0 1.4rem;
+  box-shadow: 0 8px 20px rgba(140, 78, 36, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tb-btn-primary:hover,
+.tb-btn-primary:focus {
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(140, 78, 36, 0.35);
+}
+
+.tb-btn-primary:disabled {
+  opacity: 0.75;
+  transform: none;
+}
+
+.tb-btn-outline {
+  border: 1.5px solid var(--tb-border);
+  background: #fff;
+  color: var(--tb-text);
+  font-weight: 600;
+  border-radius: 12px;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+}
+
+.tb-btn-outline:hover {
+  border-color: var(--tb-primary);
+  color: var(--tb-primary);
+  background: rgba(196, 162, 101, 0.12);
+}
+
+.tb-alert {
+  border-radius: 12px;
+  border: 1px solid #FECACA;
+  background: #FEF2F2;
+  color: #991B1B;
+  padding: 0.85rem 1rem;
+  font-weight: 500;
+}
+
+.tb-section {
+  padding-bottom: 4rem;
+}
+
+.tb-code-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(196, 162, 101, 0.12);
+  border: 1px dashed rgba(140, 78, 36, 0.35);
+  color: var(--tb-primary-dark);
+  font-family: Poppins, Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 0.55rem 0.75rem 0.55rem 1rem;
+}
+
+.tb-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  text-transform: capitalize;
+}
+
+.tb-status.pending { background: #FEF3C7; color: #B45309; }
+.tb-status.confirmed { background: #DBEAFE; color: #1D4ED8; }
+.tb-status.completed { background: #DCFCE7; color: #15803D; }
+.tb-status.cancelled { background: #FEE2E2; color: #B91C1C; }
+.tb-status.rescheduled { background: #EDE9FE; color: #6D28D9; }
+
+.tb-detail-grid .tb-meta {
+  border-bottom: 1px solid var(--tb-border);
+  padding: 0.85rem 0;
+}
+
+.tb-detail-grid .tb-meta:last-child {
+  border-bottom: 0;
+}
+
+.tb-meta .lbl {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--tb-muted);
+  margin-bottom: 0.2rem;
+}
+
+.tb-meta .val {
+  font-weight: 600;
+  color: var(--tb-text);
+  word-break: break-word;
+}
+
+/* Timeline */
+.tb-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.tb-timeline::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: #E2E8F0;
+}
+
+.tb-timeline-item {
+  position: relative;
+  padding-left: 48px;
+  padding-bottom: 1.4rem;
+}
+
+.tb-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.tb-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #CBD5E1;
+  color: #94A3B8;
+  font-size: 0.85rem;
+  z-index: 1;
+}
+
+.tb-timeline-item.done .tb-timeline-dot {
+  background: var(--tb-grad);
+  border-color: transparent;
+  color: #fff;
+}
+
+.tb-timeline-item.current .tb-timeline-dot {
+  background: #fff;
+  border-color: var(--tb-primary);
+  color: var(--tb-primary);
+  box-shadow: 0 0 0 4px rgba(140, 78, 36, 0.15);
+}
+
+.tb-timeline-item.cancelled .tb-timeline-dot {
+  background: var(--tb-danger);
+  border-color: transparent;
+  color: #fff;
+}
+
+.tb-timeline-item h6 {
+  margin: 0 0 0.2rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.tb-timeline-item p {
+  margin: 0;
+  color: var(--tb-muted);
+  font-size: 0.85rem;
+}
+
+.tb-timeline-item .time {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.tb-summary .row-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--tb-border);
+  font-size: 0.92rem;
+}
+
+.tb-summary .row-line:last-child {
+  border-bottom: 0;
+}
+
+.tb-summary .row-line span:first-child {
+  color: var(--tb-muted);
+  font-weight: 500;
+}
+
+.tb-summary .row-line strong {
+  text-align: right;
+}
+
+.tb-summary .total-line {
+  background: #F8FAFC;
+  border-radius: 12px;
+  padding: 0.85rem 1rem !important;
+  margin-top: 0.5rem;
+  border: 0 !important;
+}
+
+.tb-qr {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  border: 1px solid var(--tb-border);
+  padding: 8px;
+  background: #fff;
+}
+
+.tb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.tb-toast {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 1080;
+  background: #0F172A;
+  color: #fff;
+  padding: 0.8rem 1.1rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.25);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.tb-toast.show {
+  opacity: 1;
+  transform: none;
+}
+
+@media print {
+  .lx-header,
+  .lx-footer,
+  .tb-actions,
+  .tb-hero {
+    display: none !important;
+  }
+  .tb-page {
+    background: #fff;
+  }
+  .tb-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .tb-search-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}

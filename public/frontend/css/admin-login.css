@@ -1,0 +1,858 @@
+/* Blue Crown Barbers — Premium Admin Login */
+:root {
+  --al-blue: #136207;
+  --al-navy: #000000;
+  --al-soft: #E6F2E5;
+  --al-muted: #64748B;
+  --al-ink: #000000;
+  --al-grad: linear-gradient(135deg, #136207 0%, #000000 100%);
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-head: "Poppins", "Inter", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body.al-page {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--al-ink);
+  background: #081937;
+  overflow-x: hidden;
+}
+
+/* Full-page loader */
+.al-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.al-loader.is-active {
+  display: flex;
+}
+
+.al-loader-inner {
+  text-align: center;
+  animation: alFadeIn 0.35s ease both;
+}
+
+.al-loader-logo {
+  width: 88px;
+  height: auto;
+  margin-bottom: 22px;
+  animation: alLogoPulse 1.6s ease-in-out infinite;
+}
+
+.al-spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 3px solid rgba(19, 98, 7, 0.15);
+  border-top-color: var(--al-blue);
+  animation: alSpin 0.8s linear infinite;
+}
+
+.al-loader-title {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--al-navy);
+  margin: 0 0 6px;
+}
+
+.al-loader-sub {
+  margin: 0;
+  color: var(--al-muted);
+  font-size: 14px;
+}
+
+/* Layout */
+.al-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.al-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  min-height: 100vh;
+  order: 1; /* form first on mobile */
+  background:
+    linear-gradient(rgba(8, 25, 55, 0.72), rgba(12, 34, 78, 0.78)),
+    url("../images/luxury/hero-barber.jpg") center / cover no-repeat;
+}
+
+.al-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.al-deco {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.al-deco-1 {
+  width: 220px;
+  height: 220px;
+  top: 8%;
+  left: -60px;
+  background: radial-gradient(circle, rgba(19, 98, 7, 0.35), transparent 70%);
+  animation: alFloat 8s ease-in-out infinite;
+}
+
+.al-deco-2 {
+  width: 160px;
+  height: 160px;
+  bottom: 12%;
+  right: -40px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.28), transparent 70%);
+  animation: alFloat 10s ease-in-out infinite reverse;
+}
+
+.al-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.18;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+/* Login card */
+.al-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 24px 60px rgba(8, 25, 55, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  animation: alCardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.al-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 70px rgba(8, 25, 55, 0.42);
+}
+
+.al-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.al-brand-logo {
+  width: 82px;
+  height: auto;
+  display: block;
+  margin: 0 auto 14px;
+  animation: alLogoIn 0.7s ease both;
+}
+
+.al-brand-name {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--al-navy);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.al-welcome h1 {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--al-ink);
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.al-welcome p {
+  text-align: center;
+  color: var(--al-muted);
+  font-size: 15px;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* Alerts */
+.al-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: alSlideDown 0.4s ease both;
+}
+
+.al-alert i {
+  font-size: 18px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.al-alert-danger {
+  background: #FEF2F2;
+  color: #B91C1C;
+  border: 1px solid #FECACA;
+}
+
+.al-alert-success {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+/* Fields — floating label inputs */
+.al-field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.al-field .al-ico {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--al-muted);
+  font-size: 16px;
+  z-index: 2;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+}
+
+.al-field .al-input,
+.al-field .form-control {
+  display: block;
+  width: 100%;
+  height: 56px;
+  border-radius: 14px !important;
+  border: 1.5px solid #E2E8F0;
+  background: #F8FAFC;
+  padding: 22px 48px 8px 48px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--al-ink);
+  box-shadow: none !important;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.al-field-pass .al-input,
+.al-field-pass .form-control {
+  padding-right: 52px;
+}
+
+.al-field .al-input:hover,
+.al-field .form-control:hover {
+  border-color: #CBD5E1;
+  background: #fff;
+}
+
+.al-field .al-input:focus,
+.al-field .form-control:focus {
+  border-color: var(--al-blue);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(19, 98, 7, 0.12) !important;
+}
+
+.al-field:focus-within .al-ico {
+  color: var(--al-blue);
+}
+
+.al-field > label {
+  position: absolute;
+  left: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  color: var(--al-muted);
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  transition: top 0.18s ease, font-size 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  background: transparent;
+  z-index: 2;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 100px);
+}
+
+.al-field .al-input:focus ~ label,
+.al-field .al-input:not(:placeholder-shown) ~ label,
+.al-field .al-input.has-value ~ label,
+.al-field .form-control:focus ~ label,
+.al-field .form-control:not(:placeholder-shown) ~ label,
+.al-field .form-control.has-value ~ label {
+  top: 12px;
+  transform: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--al-blue);
+  letter-spacing: 0.02em;
+}
+
+.al-eye,
+.al-toggle-pass {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--al-muted);
+  padding: 0;
+  z-index: 3;
+  cursor: pointer;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.al-eye:hover,
+.al-toggle-pass:hover {
+  color: var(--al-blue);
+  background: rgba(19, 98, 7, 0.08);
+}
+
+.al-eye:focus-visible,
+.al-toggle-pass:focus-visible {
+  outline: 2px solid var(--al-blue);
+  outline-offset: 2px;
+}
+
+.al-field .form-control.is-invalid,
+.al-field .al-input.is-invalid {
+  border-color: #DC2626;
+}
+
+.al-field .invalid-feedback {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+/* Remember / forgot */
+.al-row,
+.al-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 22px;
+}
+
+.al-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--al-ink);
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+}
+
+.al-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--al-blue);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.al-link,
+.al-forgot {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--al-blue);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.al-link:hover,
+.al-forgot:hover {
+  color: var(--al-navy);
+  text-decoration: underline;
+}
+
+.al-meta .form-check-input {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid #CBD5E1;
+  cursor: pointer;
+}
+
+.al-meta .form-check-input:checked {
+  background-color: var(--al-blue);
+  border-color: var(--al-blue);
+}
+
+.al-meta .form-check-label {
+  font-size: 14px;
+  color: var(--al-ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Submit */
+.al-submit {
+  width: 100%;
+  height: 52px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--al-grad);
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 12px 28px rgba(19, 98, 7, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+.al-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(19, 98, 7, 0.45);
+  color: #fff;
+}
+
+.al-submit:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+}
+
+.al-footer {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--al-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.al-footer strong {
+  color: var(--al-navy);
+  font-weight: 600;
+}
+
+/* Brand panel (left on desktop) */
+.al-right {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  order: 2;
+  background:
+    linear-gradient(160deg, rgba(8, 25, 55, 0.55), rgba(12, 34, 78, 0.82)),
+    url("../images/luxury/interior.jpg") center / cover no-repeat;
+  color: #fff;
+}
+
+.al-right-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(19, 98, 7, 0.15), rgba(8, 25, 55, 0.45));
+  pointer-events: none;
+}
+
+.al-right-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+}
+
+.al-right-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 16px;
+}
+
+.al-right h2 {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 3.4vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 14px;
+  max-width: 440px;
+}
+
+.al-right .lead {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 16px;
+  max-width: 400px;
+  margin: 0 0 36px;
+  line-height: 1.6;
+}
+
+.al-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 420px;
+}
+
+.al-stat {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: alFloat 7s ease-in-out infinite;
+}
+
+.al-stat:nth-child(2) { animation-delay: 0.4s; }
+.al-stat:nth-child(3) { animation-delay: 0.8s; }
+.al-stat:nth-child(4) { animation-delay: 1.2s; }
+
+.al-stat strong {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.al-stat span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.al-right-glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(19, 98, 7, 0.45), transparent 70%);
+  filter: blur(10px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.al-right-glow.g1 { top: 10%; right: -40px; }
+.al-right-glow.g2 { bottom: 8%; left: -60px; background: radial-gradient(circle, rgba(96, 165, 250, 0.35), transparent 70%); }
+
+@keyframes alSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes alFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes alCardIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes alLogoIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes alLogoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes alSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes alFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (min-width: 992px) {
+  .al-shell {
+    display: grid;
+    grid-template-columns: 1fr minmax(460px, 48%);
+  }
+
+  .al-right {
+    order: unset;
+    display: block;
+  }
+
+  .al-left {
+    order: unset;
+    background:
+      linear-gradient(180deg, #F3F7FF 0%, #E6F2E5 100%);
+  }
+
+  .al-left::before {
+    display: none;
+  }
+
+  .al-dots {
+    opacity: 0.35;
+    background-image: radial-gradient(rgba(19, 98, 7, 0.18) 1px, transparent 1px);
+  }
+
+  .al-card {
+    box-shadow: 0 20px 50px rgba(19, 98, 7, 0.12);
+  }
+}
+
+/* Auth helper links / OTP / strength */
+.al-auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 18px;
+  margin-top: 18px;
+}
+
+.al-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--al-blue);
+  text-decoration: none;
+}
+
+.al-back-link:hover {
+  color: var(--al-navy);
+  text-decoration: underline;
+}
+
+.al-otp-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #E6F2E5;
+  color: #136207;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.al-otp-timer.is-expired {
+  background: #FEF2F2;
+  color: #B91C1C;
+}
+
+.al-otp-group {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.al-otp-digit {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--al-ink);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.al-otp-digit:focus {
+  border-color: var(--al-blue);
+  box-shadow: 0 0 0 4px rgba(19, 98, 7, 0.12);
+}
+
+.al-resend-row {
+  text-align: center;
+  margin-top: 14px;
+}
+
+.al-resend-btn {
+  border: 0;
+  background: transparent;
+  color: var(--al-blue);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+}
+
+.al-resend-btn:hover:not(:disabled) {
+  color: var(--al-navy);
+  text-decoration: underline;
+}
+
+.al-resend-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.al-strength {
+  margin: -6px 0 18px;
+}
+
+.al-strength-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: #E2E8F0;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.al-strength-bar span {
+  display: block;
+  height: 100%;
+  width: 20%;
+  border-radius: inherit;
+  background: #DC2626;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.al-strength[data-level="fair"] .al-strength-bar span {
+  width: 45%;
+  background: #F59E0B;
+}
+
+.al-strength[data-level="good"] .al-strength-bar span {
+  width: 70%;
+  background: #2563EB;
+}
+
+.al-strength[data-level="strong"] .al-strength-bar span {
+  width: 100%;
+  background: #136207;
+}
+
+.al-strength-label {
+  font-size: 12px;
+  color: var(--al-muted);
+  margin-bottom: 6px;
+}
+
+.al-strength-hints {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.al-strength-hints li {
+  font-size: 12px;
+  color: #94A3B8;
+  position: relative;
+  padding-left: 16px;
+}
+
+.al-strength-hints li::before {
+  content: "○";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.al-strength-hints li.is-met {
+  color: #136207;
+}
+
+.al-strength-hints li.is-met::before {
+  content: "●";
+}
+
+@media (max-width: 575.98px) {
+  .al-card {
+    padding: 28px 22px;
+    border-radius: 20px;
+  }
+
+  .al-welcome h1 {
+    font-size: 24px;
+  }
+
+  .al-meta {
+    flex-wrap: wrap;
+  }
+
+  .al-otp-group {
+    gap: 6px;
+  }
+
+  .al-otp-digit {
+    height: 46px;
+    font-size: 18px;
+  }
+}
