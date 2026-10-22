@@ -249,7 +249,8 @@
 
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ url('admin/gst') }}/" + id,
+                                url: "{{ route('admin.gst.destroy', ['shop' => request()->route('shop'), 'gst' => '__GST_ID__']) }}"
+                                    .replace('__GST_ID__', encodeURIComponent(id)),
                                 data: data,
                                 dataType: "json",
                                 success: function(response) {
@@ -353,7 +354,8 @@
             let id = $("#row_id").val();
             let url = flag === "A" ?
                 "{{ route('admin.gst.store') }}" :
-                "{{ url('admin/gst') }}/" + id;
+                "{{ route('admin.gst.update', ['shop' => request()->route('shop'), 'gst' => '__GST_ID__']) }}"
+                    .replace('__GST_ID__', encodeURIComponent(id));
 
             LoaderShow();
 

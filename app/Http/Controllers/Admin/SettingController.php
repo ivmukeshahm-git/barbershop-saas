@@ -51,7 +51,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $setting)
     {
         //
     }
@@ -62,7 +62,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $setting)
     {
         //
     }
@@ -74,7 +74,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $id)
     {
         $section = $request->input('setting_section', 'general');
         $setting = Setting::findOrFail($id);
@@ -179,7 +179,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $setting)
     {
         //
     }

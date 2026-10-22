@@ -301,7 +301,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "{{ url('admin/setting') }}/" + 1,
+                url: "{{ route('admin.setting.update', ['shop' => \App\Support\CurrentShop::require()->slug, 'setting' => $Setting->id]) }}",
                 data: formData,
                 success: function(response) {
                     LoaderHide()
@@ -330,10 +330,15 @@
                 },
                 error: function(xhr) {
                     LoaderHide()
-                    console.log(xhr.responseText);
-                    console.log(response.message);
-                }
-            });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Could not save settings',
+                        text: xhr.responseJSON && xhr.responseJSON.message
+                            ? xhr.responseJSON.message
+                            : 'Please check your settings and try again.'
+                    });
+                }
+            });
         });
 
         $("#contact-form").submit(function(e) {
@@ -352,7 +357,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "{{ url('admin/setting') }}/" + 1,
+                url: "{{ route('admin.setting.update', ['shop' => \App\Support\CurrentShop::require()->slug, 'setting' => $Setting->id]) }}",
                 data: formData,
                 success: function(response) {
                     LoaderHide();
@@ -382,9 +387,9 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Could not update contact details. Please try again.',
-                        showConfirmButton: false,
-                        timer: 2500
+                        text: xhr.responseJSON && xhr.responseJSON.message
+                            ? xhr.responseJSON.message
+                            : 'Could not update contact details. Please try again.'
                     });
                     console.log(xhr.responseText);
                 }
@@ -479,7 +484,8 @@
 
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ url('admin/payment-method') }}/" + id,
+                        url: "{{ route('admin.payment-method.destroy', ['shop' => request()->route('shop'), 'payment_method' => '__PAYMENT_METHOD_ID__']) }}"
+                            .replace('__PAYMENT_METHOD_ID__', encodeURIComponent(id)),
                         data: data,
                         dataType: "json",
                         success: function(response) {
@@ -567,7 +573,8 @@
             if (flag == "A") {
                 url = "{{ route('admin.payment-method.store') }}";
             } else {
-                url = "{{ url('admin/payment-method') }}/" + id;
+                url = "{{ route('admin.payment-method.update', ['shop' => request()->route('shop'), 'payment_method' => '__PAYMENT_METHOD_ID__']) }}"
+                    .replace('__PAYMENT_METHOD_ID__', encodeURIComponent(id));
             }
 
             LoaderShow()

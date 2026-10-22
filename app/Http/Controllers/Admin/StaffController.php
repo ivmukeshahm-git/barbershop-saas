@@ -121,7 +121,7 @@ class StaffController extends Controller
         });
     }
 
-    public function staff_profile(Request $request, $id)
+    public function staff_profile(Request $request, $shop, $id)
     {
         $auth = Auth::user();
         if ((int) $id !== (int) $auth->id && !$auth->can('Staff-Edit') && !$auth->can('Staff-Add')) {
@@ -757,7 +757,7 @@ $data = DB::table('tbl_appointment as a')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $staff)
     {
         //
     }
@@ -768,7 +768,7 @@ $data = DB::table('tbl_appointment as a')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $staff)
     {
         //
     }
@@ -780,7 +780,7 @@ $data = DB::table('tbl_appointment as a')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $id)
     {
         $role = Role::assignableForShop()
             ->where('name', '!=', 'Admin')
@@ -859,7 +859,7 @@ $data = DB::table('tbl_appointment as a')
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $id)
     {
         $user = User::forCurrentShop()->findOrFail($id);
 

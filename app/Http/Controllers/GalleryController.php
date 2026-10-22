@@ -60,7 +60,7 @@ class GalleryController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $id)
     {
         $gallery = Gallery::findOrFail($id);
 
@@ -76,7 +76,7 @@ class GalleryController extends Controller
         return response()->json(['status' => 1, 'message' => 'Image updated successfully']);
     }
 
-    public function destroy($id)
+    public function destroy($shop, $id)
     {
         $gallery = Gallery::findOrFail($id);
         Storage::disk('public')->delete($gallery->image);

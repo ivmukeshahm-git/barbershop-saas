@@ -303,7 +303,8 @@
 
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ url('admin/product') }}/" + id,
+                                url: "{{ route('admin.product.destroy', ['shop' => request()->route('shop'), 'product' => '__PRODUCT_ID__']) }}"
+                                    .replace('__PRODUCT_ID__', encodeURIComponent(id)),
                                 data: data,
                                 dataType: "json",
                                 success: function(response) {
@@ -442,7 +443,8 @@
             let id = $("#row_id").val();
             let url = flag === "A" ?
                 "{{ route('admin.product.store') }}" :
-                "{{ url('admin/product') }}/" + id;
+                "{{ route('admin.product.update', ['shop' => request()->route('shop'), 'product' => '__PRODUCT_ID__']) }}"
+                    .replace('__PRODUCT_ID__', encodeURIComponent(id));
 
             LoaderShow();
 

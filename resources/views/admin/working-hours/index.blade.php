@@ -589,7 +589,8 @@
 
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ url('admin/working-hour') }}/" + id,
+                        url: "{{ route('admin.working-hour.destroy', ['shop' => request()->route('shop'), 'working_hour' => '__WORKING_HOUR_ID__']) }}"
+                            .replace('__WORKING_HOUR_ID__', encodeURIComponent(id)),
                         data: data,
                         dataType: "json",
                         success: function(response) {
@@ -728,7 +729,8 @@
                     flag === "A" ?
                     "{{ route('admin.working-hour.store') }}" // Replace with your actual route
                     :
-                    "{{ url('admin/working-hour') }}/" + id;
+                    "{{ route('admin.working-hour.update', ['shop' => request()->route('shop'), 'working_hour' => '__WORKING_HOUR_ID__']) }}"
+                        .replace('__WORKING_HOUR_ID__', encodeURIComponent(id));
 
                 if (typeof LoaderShow === "function") LoaderShow();
 

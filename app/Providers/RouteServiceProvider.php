@@ -28,6 +28,24 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        // Prevent shop slugs from being treated as numeric resource record IDs.
+        foreach ([
+            'id',
+            'customer',
+            'gst',
+            'product',
+            'service',
+            'service_category',
+            'shop_closure',
+            'staff',
+            'setting',
+            'slot',
+            'payment_method',
+            'working_hour',
+        ] as $parameter) {
+            Route::pattern($parameter, '[0-9]+');
+        }
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

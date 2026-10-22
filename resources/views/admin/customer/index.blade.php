@@ -707,7 +707,8 @@
                                 type: "DELETE",
 
 
-                                url: "{{ url('admin/customers') }}/" + id,
+                                url: "{{ route('admin.customers.destroy', ['shop' => request()->route('shop'), 'customer' => '__CUSTOMER_ID__']) }}"
+                                    .replace('__CUSTOMER_ID__', encodeURIComponent(id)),
 
 
                                 data: data,

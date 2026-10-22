@@ -122,7 +122,7 @@ class GstController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $gst)
     {
         //
     }
@@ -133,7 +133,7 @@ class GstController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $gst)
     {
         //
     }
@@ -145,7 +145,7 @@ class GstController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $gst)
     {
         $request->validate([
             'gst_name' => 'required|string|max:255',
@@ -153,7 +153,7 @@ class GstController extends Controller
             'tax_type' => 'required|in:include,exclude',
         ]);
 
-        $gst = Gst::findOrFail($id);
+        $gst = Gst::findOrFail($gst);
 
         if ($request->has('Gst_defualt') && $request->Gst_defualt) {
             Gst::where('id', '!=', $gst->id)->update(['default_status' => 0]);
@@ -178,9 +178,9 @@ class GstController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $gst)
     {
-        $gst = Gst::findOrFail($id);
+        $gst = Gst::findOrFail($gst);
         $gst->delete();
 
 

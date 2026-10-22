@@ -160,7 +160,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $product)
     {
         //
     }
@@ -171,7 +171,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $product)
     {
         //
     }
@@ -183,7 +183,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $productId)
     {
         $request->validate([
             'product_nm' => 'required',
@@ -196,7 +196,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($productId);
 
         $product->category_id = $request->category_id;
         $product->product_name = $request->product_nm;
@@ -229,9 +229,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $productId)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($productId);
 
         // Optionally delete image from storage
         if ($product->product_img && Storage::disk('public')->exists($product->product_img)) {

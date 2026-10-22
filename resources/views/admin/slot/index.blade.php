@@ -456,7 +456,8 @@
                     flag === "A" ?
                     "{{ route('admin.slot.store') }}" // Replace with your actual route
                     :
-                    "{{ url('admin/slot') }}/" + id;
+                    "{{ route('admin.slot.update', ['shop' => request()->route('shop'), 'slot' => '__SLOT_ID__']) }}"
+                        .replace('__SLOT_ID__', encodeURIComponent(id));
 
                 if (typeof LoaderShow === "function") LoaderShow();
 

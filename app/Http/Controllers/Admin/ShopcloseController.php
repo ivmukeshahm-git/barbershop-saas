@@ -147,7 +147,7 @@ class ShopcloseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $shopClosure)
     {
         //
     }
@@ -158,7 +158,7 @@ class ShopcloseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $shopClosure)
     {
         //
     }
@@ -170,7 +170,7 @@ class ShopcloseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $shopClosure)
     {
         $isFullDay = $request->boolean('full_day_closure');
         $rules = [
@@ -184,7 +184,7 @@ class ShopcloseController extends Controller
             'end_time.after' => 'End must be after start.',
         ]);
 
-        $closure = ShopClosure::findOrFail($id);
+        $closure = ShopClosure::findOrFail($shopClosure);
 
         $startTime = $isFullDay ? null : $this->normalizeTimeValue($request->start_time);
         $endTime   = $isFullDay ? null : $this->normalizeTimeValue($request->end_time);
@@ -253,9 +253,9 @@ class ShopcloseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $shopClosure)
     {
-        $closure = ShopClosure::find($id);
+        $closure = ShopClosure::find($shopClosure);
 
         if (!$closure) {
             return response()->json([

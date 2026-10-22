@@ -253,7 +253,7 @@ class ServicecategoryController extends Controller
 
      */
 
-    public function show($id)
+    public function show($shop, $service_category)
 
     {
 
@@ -275,7 +275,7 @@ class ServicecategoryController extends Controller
 
      */
 
-    public function edit($id)
+    public function edit($shop, $service_category)
 
     {
 

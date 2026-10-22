@@ -132,7 +132,10 @@
                 let formData = new FormData(this);
                 let flag = $("#flag").val();
                 let id = $("#row_id").val();
-                let url = (flag == "A") ? "{{ route('admin.gallery.store') }}" : "{{ url('admin/gallery') }}/" + id;
+                let url = (flag == "A")
+                    ? "{{ route('admin.gallery.store') }}"
+                    : "{{ route('admin.gallery.update', ['shop' => request()->route('shop'), 'id' => '__GALLERY_ID__']) }}"
+                        .replace('__GALLERY_ID__', encodeURIComponent(id));
 
                 $.ajax({
                     type: "POST",
@@ -173,7 +176,8 @@
                     if(result.isConfirmed){
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ url('admin/gallery') }}/" + rowData.id,
+                            url: "{{ route('admin.gallery.destroy', ['shop' => request()->route('shop'), 'id' => '__GALLERY_ID__']) }}"
+                                .replace('__GALLERY_ID__', encodeURIComponent(rowData.id)),
                             data: {_token: '{{ csrf_token() }}'},
                             success: function(res){
                                 datatable.ajax.reload();

@@ -196,7 +196,8 @@
                 var id = $('#row_id').val();
                 var url = (flag === 'A')
                     ? "{{ route('admin.testimonial.store') }}"
-                    : "{{ url('admin/testimonial') }}/" + id;
+                    : "{{ route('admin.testimonial.update', ['shop' => request()->route('shop'), 'id' => '__TESTIMONIAL_ID__']) }}"
+                        .replace('__TESTIMONIAL_ID__', encodeURIComponent(id));
 
                 $.ajax({
                     type: 'POST',
@@ -236,7 +237,8 @@
                     if (!result.isConfirmed) return;
                     $.ajax({
                         type: 'DELETE',
-                        url: "{{ url('admin/testimonial') }}/" + rowData.id,
+                        url: "{{ route('admin.testimonial.destroy', ['shop' => request()->route('shop'), 'id' => '__TESTIMONIAL_ID__']) }}"
+                            .replace('__TESTIMONIAL_ID__', encodeURIComponent(rowData.id)),
                         data: { _token: '{{ csrf_token() }}' },
                         success: function(res) {
                             datatable.ajax.reload();

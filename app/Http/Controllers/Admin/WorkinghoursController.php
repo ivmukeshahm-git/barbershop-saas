@@ -158,7 +158,7 @@ public function index()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $workingHour)
     {
         //
     }
@@ -169,7 +169,7 @@ public function index()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $workingHour)
     {
         //
     }
@@ -181,7 +181,7 @@ public function index()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $id)
     {
         $request->validate([
             'start_time' => 'required',
@@ -233,7 +233,7 @@ public function index()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $id)
     {
         $break = Breaks::findOrFail($id);
         $slotId = $break->slot_id;

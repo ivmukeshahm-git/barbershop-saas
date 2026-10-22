@@ -1315,7 +1315,7 @@ public function getTableData(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shop, $appointment)
     {
         //
     }
@@ -1326,7 +1326,7 @@ public function getTableData(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shop, $appointment)
     {
         //
     }
@@ -1338,7 +1338,7 @@ public function getTableData(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $appointment)
     {
         //
     }
@@ -1349,12 +1349,12 @@ public function getTableData(Request $request)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shop, $appointment)
     {
         $appointment = Appointment::query()
             ->where('status', 3)
             ->where('is_invoiced', 0)
-            ->findOrFail($id);
+            ->findOrFail($appointment);
         $appointment->status = 2;
         $appointment->save();
 

@@ -112,7 +112,7 @@ class PaymentmethodController extends Controller
 
      */
 
-    public function show($id)
+    public function show($shop, $paymentMethod)
 
     {
 
@@ -134,7 +134,7 @@ class PaymentmethodController extends Controller
 
      */
 
-    public function edit($id)
+    public function edit($shop, $paymentMethod)
 
     {
 
@@ -158,19 +158,13 @@ class PaymentmethodController extends Controller
 
      */
 
-    public function update(Request $request, $id)
-
+    public function update(Request $request, $shop, $paymentMethod)
     {
-
         $request->validate([
-
-            'name' => 'required|string|max:255|unique:tbl_payment_method,name,' . $id,
-
+            'name' => 'required|string|max:255|unique:tbl_payment_method,name,' . $paymentMethod,
         ]);
 
-
-
-        $paymentMethod = PaymentMethod::findOrFail($id);
+        $paymentMethod = PaymentMethod::findOrFail($paymentMethod);
 
         $paymentMethod->update([
 
@@ -204,11 +198,9 @@ class PaymentmethodController extends Controller
 
      */
 
-    public function destroy($id)
-
+    public function destroy($shop, $paymentMethod)
     {
-
-        $paymentMethod = PaymentMethod::findOrFail($id);
+        $paymentMethod = PaymentMethod::findOrFail($paymentMethod);
 
         $paymentMethod->delete();
 
@@ -225,4 +217,3 @@ class PaymentmethodController extends Controller
     }
 
 }
-

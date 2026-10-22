@@ -393,7 +393,8 @@
                 let id = $("#row_id").val();
                 let url = flag === "A" ?
                     "{{ route('admin.shop-closures.store') }}" :
-                    "{{ url('admin/shop-closures') }}/" + id;
+                    "{{ route('admin.shop-closures.update', ['shop' => request()->route('shop'), 'shop_closure' => '__CLOSURE_ID__']) }}"
+                        .replace('__CLOSURE_ID__', encodeURIComponent(id));
 
                 LoaderShow();
 

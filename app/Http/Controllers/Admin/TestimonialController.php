@@ -82,7 +82,7 @@ class TestimonialController extends Controller
         return response()->json(['status' => 1, 'message' => 'Testimonial added successfully.']);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $shop, $id)
     {
         $validated = $request->validate([
             'client_name' => 'required|string|max:255',
@@ -113,7 +113,7 @@ class TestimonialController extends Controller
         return response()->json(['status' => 1, 'message' => 'Testimonial updated successfully.']);
     }
 
-    public function destroy($id)
+    public function destroy($shop, $id)
     {
         $item = Testimonial::findOrFail($id);
         if (!empty($item->client_image) && !str_starts_with($item->client_image, 'frontend/') && Storage::disk('public')->exists($item->client_image)) {

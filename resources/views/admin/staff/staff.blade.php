@@ -473,7 +473,8 @@
 
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ url('admin/staff') }}/" + id,
+                                url: "{{ route('admin.staff.destroy', ['shop' => request()->route('shop'), 'staff' => '__STAFF_ID__']) }}"
+                                    .replace('__STAFF_ID__', encodeURIComponent(id)),
                                 data: data,
                                 dataType: "json",
                                 success: function(response) {
@@ -741,7 +742,8 @@
                 let id = $("#row_id").val() || "";
                 let url = flag === "A" ?
                     "{{ route('admin.staff.store') }}" :
-                    "{{ url('admin/staff') }}/" + id;
+                    "{{ route('admin.staff.update', ['shop' => request()->route('shop'), 'staff' => '__STAFF_ID__']) }}"
+                        .replace('__STAFF_ID__', encodeURIComponent(id));
 
                 if (typeof LoaderShow === "function") LoaderShow();
 
