@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ $shopName ?? ($currentShop->name ?? 'Infotech') }} | Verify OTP</title>
+    <title>{{ $shopName ?? ($currentShop->name ?? 'Infotech') }} | Verify code</title>
     <meta name="description" content="Enter the verification code sent to your email." />
     <link rel="icon" type="image/webp" href="{{ ($shopLogo ?? (isset($currentShop) ? $currentShop->logoUrl() : asset('assets/img/logo.webp'))) }}" />
     <link href="{{ asset('assets/vendor/auth/bootstrap.min.css') }}" rel="stylesheet" />
@@ -19,7 +19,7 @@
         <div class="al-loader-inner">
             <img class="al-loader-logo" src="{{ ($shopLogo ?? (isset($currentShop) ? $currentShop->logoUrl() : asset('assets/img/logo.webp'))) }}" alt="{{ $shopName ?? ($currentShop->name ?? 'Infotech') }}">
             <div class="al-spinner" aria-hidden="true"></div>
-            <h3 class="al-loader-title" id="AuthLoaderTitle">Verifying OTP...</h3>
+            <h3 class="al-loader-title" id="AuthLoaderTitle">Verifying code...</h3>
             <p class="al-loader-sub">Please wait...</p>
         </div>
     </div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="al-stat">
                         <strong>Secure</strong>
-                        <span>Single Use OTP</span>
+                        <span>Single-use verification code</span>
                     </div>
                     <div class="al-stat">
                         <strong>Private</strong>
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="al-welcome">
-                    <h1>Verify OTP</h1>
+                    <h1>Verify your code</h1>
                     <p>Enter the 6-digit verification code sent to <strong>{{ $maskedEmail }}</strong>.</p>
                 </div>
 
@@ -88,7 +88,7 @@
 
                 <div class="al-otp-timer" id="otpTimerWrap" data-expires="{{ (int) ($expiresAt ?? 0) }}">
                     <i class="bi bi-hourglass-split"></i>
-                    <span>OTP expires in <strong id="otpCountdown">--:--</strong></span>
+                    <span>Code expires in <strong id="otpCountdown">--:--</strong></span>
                 </div>
 
                 <form id="otp-form" action="{{ route('admin.forgot-password.verify-otp.submit') }}" method="POST" novalidate>
@@ -103,7 +103,7 @@
                     </div>
 
                     <button class="al-submit" id="otpSubmitBtn" type="submit">
-                        <span class="al-submit-text">Verify OTP</span>
+                        <span class="al-submit-text">Verify code</span>
                         <i class="bi bi-arrow-right al-submit-arrow"></i>
                     </button>
                 </form>
@@ -112,7 +112,7 @@
                     <form id="resend-form" action="{{ route('admin.forgot-password.resend-otp') }}" method="POST">
                         @csrf
                         <button type="submit" class="al-resend-btn" id="resendBtn">
-                            Resend OTP
+                            Resend verification code
                         </button>
                     </form>
                 </div>
@@ -202,17 +202,17 @@
                 syncHidden();
                 if (!/^\d{6}$/.test(hidden.value)) {
                     e.preventDefault();
-                    alert("Please enter the complete 6-digit OTP.");
+                    alert("Please enter the complete 6-digit verification code.");
                     return;
                 }
                 btn.disabled = true;
-                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Verifying...</span>';
-                loaderTitle.textContent = "Verifying OTP...";
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Verifying code...</span>';
+                loaderTitle.textContent = "Verifying code...";
                 loader.classList.add("is-active");
             });
 
             document.getElementById("resend-form").addEventListener("submit", function() {
-                loaderTitle.textContent = "Resending OTP...";
+                loaderTitle.textContent = "Sending a new verification code...";
                 loader.classList.add("is-active");
                 document.getElementById("resendBtn").disabled = true;
             });

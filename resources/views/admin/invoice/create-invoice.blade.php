@@ -1,4 +1,5 @@
 @push('css')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}" />
     <style>
         .customer-info-box {
             /* background: #fff; */
@@ -1199,6 +1200,8 @@
 @endsection
 
 @push('script')
+    <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
+    <script src="{{ asset('assets/js/form-wizard-numbered.js?id=1') }}"></script>
     <script>
         $(document).ready(function() {
             var CURRENCY_SYMBOL = window.SHOP_CURRENCY_SYMBOL || '₹';

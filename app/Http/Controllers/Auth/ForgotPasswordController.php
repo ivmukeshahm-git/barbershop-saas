@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Mail\PasswordResetOtpMail;
 use App\Models\PasswordResetOtp;
 use App\Models\User;
+use App\Support\CurrentShop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -48,19 +50,14 @@ class ForgotPasswordController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            $message = 'Unable to send the verification email right now. Please try again in a few minutes.';
-            if (config('app.debug')) {
-                $message .= ' (' . $e->getMessage() . ')';
-            }
-
             throw ValidationException::withMessages([
-                'email' => $message,
+                'email' => 'Unable to send the verification email right now. Please try again in a few minutes.',
             ]);
         }
 
         return redirect()
             ->route('admin.forgot-password.verify-otp')
-            ->with('success', 'A verification code has been sent to your email.');
+            ->with('success', 'A password reset verification code has been sent to your email.');
     }
 
     public function showVerifyOtp(Request $request)
@@ -318,11 +315,21 @@ class ForgotPasswordController extends Controller
             ]);
         });
 
+        $shop = CurrentShop::require();
+        $logoPath = $shop->logo && Storage::disk('public')->exists($shop->logo)
+            ? Storage::disk('public')->path($shop->logo)
+            : null;
+
         Mail::to($email)->send(new PasswordResetOtpMail([
             'name' => $user->name ?: 'Admin',
             'otp' => $plainOtp,
             'expire_minutes' => $expireMinutes,
-            'subject' => 'Your Password Reset OTP - Rosenthal Barbershop',
+            'shop_name' => $shop->name,
+            'shop_logo_path' => $logoPath,
+            'shop_theme_color' => $shop->themeColor(),
+            'shop_theme_dark' => $shop->themeDark(0.55),
+            'shop_theme_rgb' => $shop->themeRgbString(),
+            'subject' => 'Password reset code | ' . $shop->name,
         ]));
 
         // Never log the plain OTP.

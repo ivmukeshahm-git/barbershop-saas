@@ -24,6 +24,9 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string',
             'password' => 'required|string',
+        ], [
+            'email.required' => 'Enter your email address or contact number.',
+            'password.required' => 'Enter your password.',
         ]);
 
         $shop = CurrentShop::require();

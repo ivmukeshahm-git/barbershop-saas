@@ -293,7 +293,7 @@
 
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" required>
+                                <input type="tel" inputmode="tel" class="form-control" id="phone" name="phone" required>
                             </div>
 
                             <div class="col-md-6">

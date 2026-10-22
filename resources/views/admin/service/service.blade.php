@@ -110,21 +110,23 @@
                             <label for="nameBackdrop" class="form-label mb-2">Price ({{ $shopCurrencySymbol ?? '₹' }}) <span
                                     style="color:red;">*</span></label>
                             <input type="number" id="price" name="price" class="form-control"
-                                min="0" max="99999999.99" step="0.01"
+                                min="0" max="99999999.99" step="0.01" inputmode="decimal"
                                 placeholder="Enter Service Name" />
                         </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="nameBackdrop" class="form-label mb-2">Duration (Minutes) <span
                                     style="color:red;">*</span></label>
-                            <input type="text" id="duration" name="duration" class="form-control"
+                            <input type="number" id="duration" name="duration" class="form-control"
+                                min="1" step="1" inputmode="numeric"
                                 placeholder="Enter Duration (Minutes)" value="{{ $defaultDuration ?? 30 }}" />
                         </div>
 
 
   <div class="col-lg-12 col-md-12 col-12 mb-3">
                             <label for="service_commission" class="form-label mb-2">Commission (%)</label>
-                            <input type="text" id="service_commission" name="service_commission" class="form-control"
+                            <input type="number" id="service_commission" name="service_commission" class="form-control"
+                                min="0" max="100" step="0.01" inputmode="decimal"
                                 placeholder="Enter Commission (%)" />
                         </div>
 

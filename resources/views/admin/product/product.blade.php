@@ -103,21 +103,24 @@
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="nameBackdrop" class="form-label mb-2">Price ({{ $shopCurrencySymbol ?? '₹' }}) <span
                                     style="color:red;">*</span></label>
-                            <input type="text" id="price" name="price" class="form-control"
-                                placeholder="Enter Service Name" />
+                            <input type="number" id="price" name="price" class="form-control"
+                                min="0" max="99999999.99" step="0.01" inputmode="decimal"
+                                placeholder="Enter Service Name" />
                         </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="nameBackdrop" class="form-label mb-2">Stock <span
                                     style="color:red;">*</span></label>
-                            <input type="text" id="stock_qty" name="stock_qty" class="form-control"
-                                placeholder="Enter Stock" />
+                            <input type="number" id="stock_qty" name="stock_qty" class="form-control"
+                                min="0" step="1" inputmode="numeric"
+                                placeholder="Enter Stock" />
                         </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="nameBackdrop" class="form-label mb-2">Commission (%)</label>
-                            <input type="text" id="commission" name="commission" class="form-control"
-                                placeholder="Enter Commission" />
+                            <input type="number" id="commission" name="commission" class="form-control"
+                                min="0" max="100" step="0.01" inputmode="decimal"
+                                placeholder="Enter Commission" />
                         </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">

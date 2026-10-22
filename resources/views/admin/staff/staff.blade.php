@@ -163,7 +163,7 @@
                         <div class="col-lg-12 col-md-12 col-12 mb-3">
                             <label for="nameBackdrop" class="form-label mb-2">Phone
                             </label>
-                            <input type="text" id="staff_phone" name="staff_phone" class="form-control"
+                            <input type="tel" inputmode="tel" id="staff_phone" name="staff_phone" class="form-control"
                                 placeholder="Enter Staff Phone" />
                         </div>
 

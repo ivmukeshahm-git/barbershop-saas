@@ -48,7 +48,7 @@
                             <div class="col-sm-6">
                                 <div class="border rounded p-3 h-100">
                                     <div class="text-muted small">Amount paid</div>
-                                    <div class="fw-semibold">{{ \App\Support\CountryCurrency::format((float) $subscription->amount, $subscription->currency ?: ($currencyCode ?? null)) }} <span class="text-muted small">{{ $subscription->currency ?: ($currencyCode ?? '') }}</span></div>
+                                    <div class="fw-semibold">{{ \App\Support\CountryCurrency::format((float) $subscription->amount, $currencyCode) }} <span class="text-muted small">{{ $currencyCode }}</span></div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -64,7 +64,7 @@
                         </div>
 
                         @if (!empty($subscription->meta['gst_amount']))
-                            @php $billSym = $currencySymbol ?? \App\Support\CountryCurrency::symbol($subscription->currency ?? null); @endphp
+                            @php $billSym = $currencySymbol; @endphp
                             <div class="alert alert-light border">
                                 <div class="d-flex justify-content-between"><span>Subtotal</span><strong>{{ $billSym }}{{ number_format((float) ($subscription->meta['subtotal'] ?? 0), 2) }}</strong></div>
                                 @if (($subscription->meta['discount'] ?? 0) > 0)

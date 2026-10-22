@@ -367,8 +367,8 @@
                 contentType: false,
                 success: function(response) {
                     LoaderHide();
-                    $("#GstModal").modal('hide');
-                    if (response.status === 1) {
+                    if (response.status === 1) {
+                        $("#GstModal").modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
@@ -383,7 +383,7 @@
                         Swal.fire({
                             icon: 'warning',
                             title: 'Warning',
-                            text: response.message,
+                            text: window.ajaxResponseMessage(response, 'GST could not be saved.'),
                             showConfirmButton: false,
                             timer: 2000
                         });
@@ -410,9 +410,8 @@
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: (xhr.responseJSON && xhr.responseJSON.message) ?
-                            xhr.responseJSON.message : 'Something went wrong. Please try again.',
+                        title: 'Update failed',
+                        text: window.ajaxResponseMessage(xhr, 'GST could not be saved. Please try again.'),
                         target: document.getElementById('GstModal'),
                         showConfirmButton: true
                     });

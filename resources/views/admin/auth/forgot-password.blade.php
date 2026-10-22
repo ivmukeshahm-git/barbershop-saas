@@ -36,7 +36,7 @@
                 <p class="lead">Verify your email, confirm with a one-time code, and create a new password — safely and quickly.</p>
                 <div class="al-stats">
                     <div class="al-stat">
-                        <strong>OTP</strong>
+                        <strong>Code</strong>
                         <span>Email Verification</span>
                     </div>
                     <div class="al-stat">
@@ -95,7 +95,7 @@
                     </div>
 
                     <button class="al-submit" id="forgotSubmitBtn" type="submit">
-                        <span class="al-submit-text">Verify Email</span>
+                        <span class="al-submit-text">Send verification code</span>
                         <i class="bi bi-arrow-right al-submit-arrow"></i>
                     </button>
                 </form>
@@ -120,6 +120,7 @@
             var $form = $("#forgot-form");
             var $btn = $("#forgotSubmitBtn");
             var $loader = $("#AuthLoader");
+            var submitButtonHtml = $btn.html();
 
             $form.find(".form-control").on("input blur change", function() {
                 $(this).toggleClass("has-value", !!this.value);
@@ -127,8 +128,13 @@
 
             $form.on("submit", function() {
                 $btn.prop("disabled", true);
-                $btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Verifying...</span>');
+                $btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Sending verification code...</span>');
                 $loader.addClass("is-active");
+            });
+
+            window.addEventListener("pageshow", function() {
+                $loader.removeClass("is-active");
+                $btn.prop("disabled", false).html(submitButtonHtml);
             });
         })();
     </script>

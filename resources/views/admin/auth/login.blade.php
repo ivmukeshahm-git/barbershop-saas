@@ -69,7 +69,7 @@
                     <p>Sign in to access your Admin Dashboard.</p>
                 </div>
 
-                @if ($errors->has('email'))
+                @if ($errors->has('email') && old('email'))
                     <div class="al-alert al-alert-danger" role="alert">
                         <i class="bi bi-exclamation-circle-fill"></i>
                         <span>{{ $errors->first('email') }}</span>
@@ -89,18 +89,24 @@
                     <div class="al-field">
                         <span class="al-ico" aria-hidden="true"><i class="bi bi-envelope"></i></span>
                         <input type="text" name="email" id="email" class="al-input"
-                            value="{{ old('email') }}" placeholder=" " autocomplete="username" required>
+                            value="{{ old('email') }}" placeholder=" " autocomplete="username" required
+                            aria-describedby="email-error" @if ($errors->has('email')) aria-invalid="true" @endif>
                         <label for="email">Email or contact number</label>
+                        <div class="invalid-feedback" id="email-error" aria-live="polite"
+                            @if (!$errors->has('email')) style="display:none" @endif>@error('email'){{ $message }}@enderror</div>
                     </div>
 
                     <div class="al-field al-field-pass">
                         <span class="al-ico" aria-hidden="true"><i class="bi bi-lock"></i></span>
                         <input type="password" name="password" id="password" class="al-input"
-                            placeholder=" " autocomplete="current-password" required>
+                            placeholder=" " autocomplete="current-password" required
+                            aria-describedby="password-error" @if ($errors->has('password')) aria-invalid="true" @endif>
                         <label for="password">Password</label>
                         <button type="button" class="al-eye" id="TogglePassword" aria-label="Show password">
                             <i class="bi bi-eye"></i>
                         </button>
+                        <div class="invalid-feedback" id="password-error" aria-live="polite"
+                            @if (!$errors->has('password')) style="display:none" @endif>@error('password'){{ $message }}@enderror</div>
                     </div>
 
                     <div class="al-row">
@@ -124,7 +130,9 @@
             var form = document.getElementById('login-form');
             var loader = document.getElementById('LoginLoader');
             var toggle = document.getElementById('TogglePassword');
+            var email = document.getElementById('email');
             var password = document.getElementById('password');
+            var submitButton = document.getElementById('LoginSubmit');
 
             if (toggle && password) {
                 toggle.addEventListener('click', function () {
@@ -154,11 +162,44 @@
                 });
             }, 150);
 
-            if (form && loader) {
-                form.addEventListener('submit', function () {
+            function showFieldError(input, message) {
+                var error = document.getElementById(input.id + '-error');
+                input.classList.toggle('is-invalid', Boolean(message));
+                input.setAttribute('aria-invalid', message ? 'true' : 'false');
+                if (error) {
+                    error.textContent = message || '';
+                    error.style.display = message ? 'block' : 'none';
+                }
+            }
+
+            if (form && loader && email && password) {
+                form.addEventListener('submit', function (event) {
+                    var emailMissing = !email.value.trim();
+                    var passwordMissing = !password.value.trim();
+
+                    showFieldError(email, emailMissing ? 'Enter your email address or contact number.' : '');
+                    showFieldError(password, passwordMissing ? 'Enter your password.' : '');
+
+                    if (emailMissing || passwordMissing) {
+                        event.preventDefault();
+                        (emailMissing ? email : password).focus();
+                        return;
+                    }
+
                     loader.classList.add('is-active');
                 });
+
+                [email, password].forEach(function (input) {
+                    input.addEventListener('input', function () {
+                        if (input.value.trim()) showFieldError(input, '');
+                    });
+                });
             }
+
+            window.addEventListener('pageshow', function () {
+                if (loader) loader.classList.remove('is-active');
+                if (submitButton) submitButton.disabled = false;
+            });
         })();
     </script>
 </body>

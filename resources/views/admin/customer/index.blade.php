@@ -1079,12 +1079,9 @@
 
                     LoaderHide()
 
-
-                    $("#CustomerAddModal").modal("hide");
-
-
                     if (response.status === 1) {
 
+                        $("#CustomerAddModal").modal("hide");
 
                         Swal.fire({
 
@@ -1127,11 +1124,9 @@
 
                             icon: 'warning',
 
-
                             title: 'Warning',
 
-
-                            text: response.message,
+                            text: window.ajaxResponseMessage(response, 'Customer could not be saved.'),
 
 
                             showConfirmButton: false,
@@ -1180,9 +1175,8 @@
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: (xhr.responseJSON && xhr.responseJSON.message) ?
-                            xhr.responseJSON.message : 'Something went wrong. Please try again.',
+                        title: 'Update failed',
+                        text: window.ajaxResponseMessage(xhr, 'Customer could not be saved. Please try again.'),
                         target: document.getElementById('CustomerAddModal'),
                         showConfirmButton: true
                     });

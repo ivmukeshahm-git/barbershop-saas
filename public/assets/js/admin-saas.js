@@ -15,6 +15,57 @@
     return (window.SHOP_CURRENCY_SYMBOL || "") + n.toFixed(decimals);
   };
 
+  window.ajaxResponseMessage = function (response, fallback) {
+    var payload = response && response.responseJSON ? response.responseJSON : response;
+
+    if (typeof payload === "string") {
+      try {
+        var parsedPayload = JSON.parse(payload);
+        if (typeof parsedPayload === "string" && parsedPayload.trim()) {
+          return parsedPayload.trim();
+        }
+        payload = parsedPayload;
+      } catch (error) {
+        var text = payload.trim();
+        if (text.indexOf("<") !== -1) {
+          var container = document.createElement("div");
+          container.innerHTML = text
+            .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+            .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
+          text = (container.textContent || "").trim();
+        }
+        if (text) return text.slice(0, 500);
+      }
+    }
+
+    if (payload && typeof payload === "object") {
+      if (typeof payload.message === "string" && payload.message.trim()) {
+        return payload.message.trim();
+      }
+      if (typeof payload.error === "string" && payload.error.trim()) {
+        return payload.error.trim();
+      }
+      if (payload.errors && typeof payload.errors === "object") {
+        var messages = [];
+        Object.keys(payload.errors).forEach(function (field) {
+          var fieldMessages = payload.errors[field];
+          (Array.isArray(fieldMessages) ? fieldMessages : [fieldMessages]).forEach(function (message) {
+            if (typeof message === "string" && message.trim()) messages.push(message.trim());
+          });
+        });
+        if (messages.length) return messages.join("\n");
+      }
+    }
+
+    if (response && response.responseText && response.responseText !== payload) {
+      return window.ajaxResponseMessage(response.responseText, fallback);
+    }
+    if (response && response.status) {
+      return (fallback || "The request could not be completed.") + " (HTTP " + response.status + ").";
+    }
+    return fallback || "The request could not be completed. Please try again.";
+  };
+
   /* ---------- Toast system ---------- */
   function ensureToastRoot() {
     var root = document.getElementById("bc-toast-root");

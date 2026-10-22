@@ -142,6 +142,20 @@ Route::any('/admin/{any}', function () {
 Route::prefix('{shop}')
     ->middleware(['resolve.shop'])
     ->group(function () {
+        Route::get('/', function () {
+            $shop = \App\Support\CurrentShop::require();
+            $user = Auth::user();
+
+            if (
+                $user
+                && (!empty($user->is_platform_admin) || (int) $user->shop_id === (int) $shop->id)
+            ) {
+                return redirect()->route($user->preferredAdminHomeRoute(), ['shop' => $shop->slug]);
+            }
+
+            return redirect()->route('login', ['shop' => $shop->slug]);
+        });
+
         Route::get('admin/login', [AuthController::class, 'index'])->name('login');
         Route::post('admin/post-login', [AuthController::class, 'postLogin'])->name('post-login');
         Route::post('admin/logout', [AuthController::class, 'logout'])->name('logout');

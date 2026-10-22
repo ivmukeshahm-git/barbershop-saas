@@ -44,25 +44,15 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}" />
-
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/fullcalendar/fullcalendar.css?id=1') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css?id=1') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css?id=1') }}" />
-
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/form-validation.css') }}" />
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/app-logistics-dashboard.css') }}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @stack('css')
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -93,7 +83,6 @@
         };
     </script>
 </head>
-@stack('css')
 <style>
     @media (max-width: 1199.98px) {
         .layout-menu-toggle.mobile-menu-toggle {
@@ -302,32 +291,40 @@ padding: 0.782rem 1rem!important;
         $user = Auth::user();
     @endphp
     @php
+        $showCompleteOrderModal = request()->routeIs(
+            'admin.customer.customer-profile',
+            'admin.staff.staff-profile'
+        );
+        $servicesByCategory = collect();
+        $Product = collect();
 
-        $servicesByCategoryRaw = DB::table('tbl_service_category as sc')
-            ->join('tbl_service as s', 'sc.id', '=', 's.category_id')
-            ->select(
-                'sc.id as category_id',
-                'sc.category_name',
-                's.id as service_id',
-                's.service_name',
-                's.price',
-                's.duration',
-                's.status',
-                's.tip_status',
-                's.service_img',
-                's.description',
-            )
-            ->whereNull('s.deleted_at')
-            ->whereNull('sc.deleted_at')
-            ->orderBy('sc.id')
-            ->orderBy('s.id')
-            ->get();
+        if ($showCompleteOrderModal) {
+            $shopId = \App\Support\CurrentShop::require()->id;
+            $servicesByCategoryRaw = DB::table('tbl_service_category as sc')
+                ->join('tbl_service as s', 'sc.id', '=', 's.category_id')
+                ->select(
+                    'sc.id as category_id',
+                    'sc.category_name',
+                    's.id as service_id',
+                    's.service_name',
+                    's.price',
+                    's.duration',
+                    's.status',
+                    's.tip_status',
+                    's.service_img',
+                    's.description',
+                )
+                ->where('sc.shop_id', $shopId)
+                ->where('s.shop_id', $shopId)
+                ->whereNull('s.deleted_at')
+                ->whereNull('sc.deleted_at')
+                ->orderBy('sc.id')
+                ->orderBy('s.id')
+                ->get();
 
-        $servicesByCategory = $servicesByCategoryRaw->groupBy('category_id');
-
-        $Staff = App\Models\User::where('role', 'Staff')->get();
-
-        $Product = App\Models\Product::get();
+            $servicesByCategory = $servicesByCategoryRaw->groupBy('category_id');
+            $Product = App\Models\Product::query()->get();
+        }
 
     @endphp
     <div class="preloader" id="Loader">
@@ -910,8 +907,7 @@ padding: 0.782rem 1rem!important;
                         display: none;
                     }
                 </style>
-
-
+                @if ($showCompleteOrderModal)
                 <div class="modal fade" id="CompleteOrderModal" data-bs-backdrop="static" tabindex="-1">
                     <div class="modal-dialog">
                         <form class="modal-content">
@@ -1109,6 +1105,7 @@ padding: 0.782rem 1rem!important;
                 </div>
 
 
+                @endif
                 <style>
                     .toggle-tabs {
                         display: flex;
@@ -1764,38 +1761,21 @@ padding: 0.782rem 1rem!important;
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
 
-
-    <script src="{{ asset('assets/vendor/libs/fullcalendar/fullcalendar.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-
-
-    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{ asset('assets/js/app-logistics-dashboard.js') }}"></script>
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
-
-    <script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
-    <script src="{{ asset('assets/js/form-wizard-numbered.js?id=1') }}"></script>
-    {{-- <script src="{{ asset('assets/js/form-wizard-validation.js') }}"></script> --}}
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1807,7 +1787,7 @@ padding: 0.782rem 1rem!important;
 
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
-    <script src="{{ asset('assets/js/admin-saas.js') }}?v=4"></script>
+    <script src="{{ asset('assets/js/admin-saas.js') }}?v=5"></script>
     @stack('script')
     <script>
         function ArchiveAppointment(url) {

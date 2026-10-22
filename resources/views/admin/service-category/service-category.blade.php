@@ -479,7 +479,7 @@
 
                                             title: 'Warning',
 
-                                            text: response.message,
+                                            text: window.ajaxResponseMessage(response, 'Service category could not be saved.'),
 
                                             showConfirmButton: false,
 
@@ -726,9 +726,8 @@
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: (xhr.responseJSON && xhr.responseJSON.message) ?
-                            xhr.responseJSON.message : 'Something went wrong. Please try again.',
+                        title: 'Update failed',
+                        text: window.ajaxResponseMessage(xhr, 'Service category could not be saved. Please try again.'),
                         target: document.getElementById('ServiceCategoryModal'),
                         showConfirmButton: true
                     });
@@ -751,4 +750,3 @@
         }
     </script>
 @endpush
-
